@@ -2,12 +2,12 @@
 
 import React, { ChangeEvent, useEffect, useState } from 'react';
 
-interface Props {
+interface SearchBoxProps {
   onChange: (value: string) => void;
   value?: string; // Optional initial value
 }
 
-const SearchBox: React.FC<Props> = ({ onChange, value: initialValue = '' }) => {
+const SearchBox: React.FC<SearchBoxProps> = ({ onChange, value: initialValue = '' }) => {
   const [value, setValue] = useState(initialValue);
 
   useEffect(() => {
