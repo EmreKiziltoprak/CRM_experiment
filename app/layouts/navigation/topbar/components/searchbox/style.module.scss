@@ -1,0 +1,27 @@
+.searchbox {
+
+    &__container {
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+        background-color: white;
+        border: 1px solid gray;
+    }
+
+    &__icon {
+        color: gray;
+        background-color: white;
+        border-radius: 10px;
+    }
+
+    width: 20vw;
+    min-width: 200px;
+    background-color: white;
+    padding: .75em .75em;
+    border-radius: 10px;
+    border: none;
+
+    &:focus, input:focus{
+        outline: none;
+    }
+}

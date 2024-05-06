@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import TopBar from "./layouts/navigation/topbar/topbar";
+import { TopBarContext, TopBarProvider } from "./layouts/navigation/topbar/context/topbarContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <TopBarProvider>
         <TopBar currentMode="Crm version 0.1.0" />
+        </TopBarProvider>
         {children}
         </body>
     </html>
