@@ -45,11 +45,13 @@ const TopBar: React.FC<ITopBar> = (props) => {
               <NonNavigatingMenu iconString={e.icon}
                 width={24}
                 height={24}
+                iconItem={e}
+                setActiveButtonIndex={setActiveButtonIndex}
                 isActive={activeButtonIndex == e.id}
                 position={IconPosition.Top}
                 borderRadius={90}
                 backgroundColor='white'
-                hoverColor='blue' />
+                hoverColor='gray' />
             )
           })}
         </section>

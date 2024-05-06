@@ -1,5 +1,6 @@
 import React from 'react'
 import classes from "./style.module.scss";
+import OutsideAlerter from '@/app/hooks/outsideClickHook';
 
 export enum positionEnum {
   absolute = "absolute",
@@ -13,11 +14,14 @@ type Props = {
   borderRadius?: string;
   backgroundColor?: string;
   children?: React.ReactNode;
-  position: positionEnum
+  position: positionEnum;
+  setActiveButtonIndex: React.Dispatch<React.SetStateAction<number | null>>;
+
 }
 
-function SubMenu({ width, height, borderRadius, backgroundColor, children, position }: Props) {
+function SubMenu({ width, height, borderRadius, backgroundColor, children, position, setActiveButtonIndex }: Props) {
   return (
+    <OutsideAlerter onOutsideClick={()=>{setActiveButtonIndex(null)}}>
     <div
       style={{
         width: width,
@@ -25,12 +29,14 @@ function SubMenu({ width, height, borderRadius, backgroundColor, children, posit
         borderRadius: borderRadius,
         backgroundColor: backgroundColor,
         position: position,
-        right: 20
+        right: 10,
       }}
       className={classes.submenu}
     >
       {children} {/* Render children components here */}
     </div>
+    </OutsideAlerter>
+
   );
 }
 

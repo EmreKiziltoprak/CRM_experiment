@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useState } from 'react';
 import Icon from '../../icon/Icon';
 import classes from './style.module.scss';
@@ -36,8 +38,7 @@ function NonNavigatingMenu({
   iconItem,
 }: Props) {
   const [hover, setHover] = useState<boolean>(false);
-  const [showRelativeMenu, setShowRelativeMenu] = useState<boolean>(false);
-
+  const [showRelativeMenu,setShowRelativeMenu] = useState<boolean>(false);
   // Determine CSS position class based on the position prop
   useEffect(() => {
     // Use a mapping to set the correct CSS position class
@@ -64,6 +65,7 @@ function NonNavigatingMenu({
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onClick={() => {
+
           setActiveButtonIndex(iconItem.id);
           setShowRelativeMenu((prev) => !prev);
         }}
@@ -72,12 +74,13 @@ function NonNavigatingMenu({
       </div>
 
       {/* Opened menu (SubMenu) */}
-      {position === IconPosition.Top && showRelativeMenu && isActive && (
+      {position === IconPosition.Top &&  isActive && (
         <SubMenu
           backgroundColor='white'
-          height="100px"
-          width="100px"
-          borderRadius="15"
+          height="150px"
+          width="150px"
+          borderRadius="15px"
+          setActiveButtonIndex={setActiveButtonIndex}
           position={positionEnum.absolute}
         />
       )}
