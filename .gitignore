@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/crm-base-api/node_modules
+
 /.pnp
 .pnp.js
 .yarn/install-state.gz
