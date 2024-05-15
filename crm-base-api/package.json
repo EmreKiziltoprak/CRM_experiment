@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node src/index.ts",
-    "dev": "nodemon --exec ts-node src/index.ts"
+    "dev": "nodemon --exec \"node --inspect-brk -r ts-node/register src/index.ts\""
   },
   "keywords": [],
   "author": "",
@@ -26,12 +26,15 @@
     "jsdoc": "^4.0.3",
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
-    "nodemon": "^3.1.0",
     "reflect-metadata": "^0.2.2",
     "routing-controllers": "^0.10.4",
-    "ts-node": "^10.9.2",
+    "typedi": "^0.10.0",
     "typeorm": "^0.3.20",
     "typeorm-typedi-extensions": "^0.4.1",
     "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2"
   }
 }
