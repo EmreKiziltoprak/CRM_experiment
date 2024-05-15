@@ -1,7 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { IUsers } from './users/IUsers';
+
 
 @Entity({ name: 'users' })
-export class Users {
+export class Users implements IUsers {
   
   @PrimaryGeneratedColumn({ name: 'user_id' })
   userId!: number;
@@ -19,3 +21,4 @@ export class Users {
   roleId!: number;
   
 }
+
