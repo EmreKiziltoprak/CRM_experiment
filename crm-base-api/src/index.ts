@@ -1,8 +1,23 @@
-import 'reflect-metadata';
+import express, { Request, Response } from 'express';
+import bodyParser from 'body-parser';
+import { useExpressServer } from 'routing-controllers';
+import { UsersController } from './controllers/UsersController';
 
-import app from './app';
+const port = process.env.PORT || 3001;
 
+// Create express app
+const app = express();
 
-app.listen(3307, () => {
-  console.log(`Server is running on port ${3307}`);
+// Middleware
+app.use(bodyParser.json());
+
+// Routes
+useExpressServer(app, {
+  controllers: [UsersController],
+  validation: true,
+});
+
+// Start server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });

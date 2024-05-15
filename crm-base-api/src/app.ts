@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 
 import express from 'express';
-import mysql from 'mysql';
+import * as mysql from 'mysql';
 require('dotenv').config();
 
 dotenv.config();
