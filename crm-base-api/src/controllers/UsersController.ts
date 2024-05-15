@@ -13,7 +13,7 @@ export class UsersController {
     const { username, email, password } = body;
 
     try {
-      console.log("UsersController findByEmail")
+      console.log(this.usersService)
       const user = await this.usersService.findByEmail(email);
       if (user) {
         return res.status(400).json({
