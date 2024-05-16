@@ -3,11 +3,10 @@
     "target": "es6",
     "module": "commonjs",
     "outDir": "./dist",
-    "strict": true,
+    "strict": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "esModuleInterop": true,
   },
-  "include": ["src/**/*.ts", "src/models/Users.tsx"],
+  "include": ["src/**/*.ts", "*.ts"],
   "exclude": ["node_modules"]
 }

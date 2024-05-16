@@ -1,27 +1,38 @@
 import { Response } from 'express';
 import { UsersService } from '../services/UsersService';
-import { Controller, Post, Res, Body } from 'routing-controllers';
+import { Controller, Post, Res, Body, Get, QueryParams } from 'routing-controllers'; // Import Inject decorator
 import { RegisterRequest } from '../models/users/payload/request/RegisterRequest';
+import Container, { Inject, Service } from 'typedi';
+import { UsersRepository } from '../repositories/UsersRepository';
 
 @Controller('/users')
+@Service()
 export class UsersController {
 
-  constructor(private readonly usersService: UsersService) {}
+  /*   public userService: UsersService = Container.get(UsersService)
+   */
+
+  constructor(@Inject() public userService: UsersService) { }
+
+
+  @Get('/am') async aa(@QueryParams() query: any, @Res() res: Response): Promise<any> { }
 
   @Post('/register')
-  async register(@Body() body: RegisterRequest, @Res() res: Response) {
+  async register(@Body() body: RegisterRequest, @Res() res: Response): Promise<any> {
+
+    debugger;
     const { username, email, password } = body;
 
+
     try {
-      console.log(this.usersService)
-      const user = await this.usersService.findByEmail(email);
+      const user = await this.userService.findByEmail(email);
       if (user) {
         return res.status(400).json({
           message: 'User with this email already exists',
         });
       }
 
-      await this.usersService.createUser({
+      await this.userService.createUser({
         username: username,
         email: email,
         password: password,

@@ -1,23 +1,21 @@
-import express, { Request, Response } from 'express';
-import bodyParser from 'body-parser';
-import { useExpressServer } from 'routing-controllers';
+import "reflect-metadata";
+
+import  { Request, Response } from 'express';
+import { useContainer, useExpressServer } from 'routing-controllers';
 import { UsersController } from './controllers/UsersController';
+import app from './app';
+import Container from 'typedi';
+import { UsersRepository } from "./repositories/UsersRepository";
 
-const port = process.env.PORT || 3001;
+const port = process.env.NODE_PORT || 3001;
 
-// Create express app
-const app = express();
+console.log("UsersController",UsersController)
+useContainer(Container);
 
-// Middleware
-app.use(bodyParser.json());
-
-// Routes
+// Start server
 useExpressServer(app, {
   controllers: [UsersController],
   validation: true,
-});
-
-// Start server
-app.listen(port, () => {
+}).listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
