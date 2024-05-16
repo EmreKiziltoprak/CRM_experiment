@@ -1,10 +1,11 @@
 // src/store.ts
 
 import { configureStore } from '@reduxjs/toolkit';
+import userReducer  from './slices/registerSlice';
 
 const store = configureStore({
   reducer: {
-    // Define your reducers here
+    user: userReducer
   },
 });
 

@@ -1,0 +1,22 @@
+.login{
+
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
+
+    &__card{
+        background-color: var(--card-color);
+        border-radius: var(--border-radius-card);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: var(--padding-card);
+        
+        &Heading{
+            font-size: var(--font-xlarge-heading);
+        }
+    }
+
+
+}

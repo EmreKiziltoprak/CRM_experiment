@@ -1,0 +1,35 @@
+/* globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+  --primary-color: #cdd5de;
+  --secondary-color: #6c757d;
+  --accent-color: #ffc107;
+  --card-color: #eceae2;
+  --border-radius-card: 15px;
+  --padding-card: 1rem;
+  
+
+  /* font size */
+  --font-xlarge-heading: 2rem;
+  --font-large-heading: 1.5rem;
+  
+
+  /* Add more colors as needed */
+}
+
+h6{
+  color: black;
+}
+body{
+  margin: 0px;
+  height: 100%;
+}
+
+html{
+  height: 100%;
+}
+#__next {
+  height: 100%;
+
+}
