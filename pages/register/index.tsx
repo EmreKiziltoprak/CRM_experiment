@@ -1,14 +1,15 @@
 import { Box, Button, Card, CircularProgress, TextField } from '@mui/material';
 import React, { useState } from 'react';
+import Image from "next/image"
 import { useTranslation } from 'react-i18next';
 import classes from './style.module.scss';
-
+import logo from "../../app/assets/logo/logo-black.svg"
 type Props = {};
 
 function Register({}: Props) {
 
   
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
   const [formData, setFormData] = useState({
     email: '',
     username: '',
@@ -40,15 +41,16 @@ function Register({}: Props) {
   return (
     <Box className={classes.login}>
       <Card className={classes.login__card}>
-        <h2>{t('register')}</h2>
-        <form onSubmit={handleSubmit}>
+        <Image src={logo} width={200} height={150} alt="logo"  />
+        <h5 className={classes.login__cardHeading}>{t('register')}</h5>
+        <form onSubmit={handleSubmit} className={classes.login__cardForm}>
           <TextField
             label={t('email')}
             type="email"
             name="email"
             value={formData.email}
             onChange={handleInputChange}
-            fullWidth
+            className={classes.login__cardInput}
             required
             margin="normal"
           />

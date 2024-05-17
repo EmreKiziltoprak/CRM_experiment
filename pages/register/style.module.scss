@@ -3,6 +3,7 @@
     display: flex;
     align-items: center;
     height: 100%;
+    background-color: var(--card-background);
     justify-content: center;
 
     &__card{
@@ -11,10 +12,22 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        min-width: 35%;
         padding: var(--padding-card);
         
+        &Form{
+            display: flex;
+            width: 50%;
+            flex-direction: column;
+            align-items: center;
+        }
         &Heading{
-            font-size: var(--font-xlarge-heading);
+            font-size: var(--font-medium-heading);
+        }
+
+        &Input{
+            width: 100%;
+
         }
     }
 

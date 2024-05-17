@@ -2,18 +2,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 :root {
+
+  /* colors */
   --primary-color: #cdd5de;
   --secondary-color: #6c757d;
+  --card-background:  #ced3d7;
   --accent-color: #ffc107;
-  --card-color: #eceae2;
-  --border-radius-card: 15px;
+  --card-color: white;
+  --border-radius-card: 10px;
   --padding-card: 1rem;
   
 
   /* font size */
   --font-xlarge-heading: 2rem;
   --font-large-heading: 1.5rem;
-  
+  --font-medium-heading: 1.05rem;
+
 
   /* Add more colors as needed */
 }
@@ -27,9 +31,9 @@ body{
 }
 
 html{
-  height: 100%;
+  height: 100% !important;
 }
 #__next {
-  height: 100%;
-
+  height: 100% !important;
+background-color: white;
 }
