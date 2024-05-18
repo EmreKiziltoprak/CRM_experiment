@@ -1,5 +1,7 @@
 {
-    "Index": {
-      "title": "Hello world!"
-    }
+  "Index": {
+    "title": "Create an account for intellisense",
+    "email": "Email",
+    "password": "Password"
   }
+}
