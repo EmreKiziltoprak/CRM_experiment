@@ -1,15 +1,17 @@
 import { Box, Button, Card, CircularProgress, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import Image from "next/image"
-import { useTranslation } from 'react-i18next';
 import classes from './style.module.scss';
 import logo from "../../app/assets/logo/logo-black.svg"
-type Props = {};
+import { useTranslations } from 'next-intl';
+import a from "../../messages/en.json"
+type Props = { locale: string };
 
-function Register({}: Props) {
+function Register({ locale }: Props) {
 
-  
-  const { t } = useTranslation("common");
+
+  const t = useTranslations('Index');
+
   const [formData, setFormData] = useState({
     email: '',
     username: '',
@@ -41,8 +43,8 @@ function Register({}: Props) {
   return (
     <Box className={classes.login}>
       <Card className={classes.login__card}>
-        <Image src={logo} width={200} height={150} alt="logo"  />
-        <h5 className={classes.login__cardHeading}>{t('register')}</h5>
+        <Image src={logo} width={200} height={150} alt="logo" />
+        <h5 className={classes.login__cardHeading}>{t('title')}</h5>
         <form onSubmit={handleSubmit} className={classes.login__cardForm}>
           <TextField
             label={t('email')}
@@ -92,5 +94,15 @@ const fakeRegister = async (formData: { email: string; username: string; passwor
     }, 1000);
   });
 };
+
+export function getStaticProps({ locale = "en" }) {
+  return {
+    props: {
+      messages: {
+        ...a
+      },
+    },
+  };
+}
 
 export default Register;
