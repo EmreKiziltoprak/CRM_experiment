@@ -1,8 +1,13 @@
 import * as dotenv from 'dotenv';
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec =  require("./swaggerConfig");
 
 import * as express from 'express';
 import * as mysql from 'mysql';
 import { createConnection } from 'typeorm';
+var cors = require('cors')
+
+
 require('dotenv').config();
 dotenv.config();
 
@@ -11,6 +16,11 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+
+//Add Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(cors())
+
 
 // Connect to the database using TypeORM
 createConnection()

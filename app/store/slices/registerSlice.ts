@@ -30,15 +30,20 @@ export const { registerStart, registerSuccess, registerFailure } = userSlice.act
 
 export default userSlice.reducer;
 
+export interface RegisterUserDTO {
+  email: string;
+  password: string;
+  username: string;
+}
+
 export interface User {
-    id: string;
-    username: string;
-    email: string;
-  }
-  
-  export interface UserState {
-    user: User | null;
-    isLoading: boolean;
-    error: string | null;
-  }
-  
+  id?: string;
+  username: string;
+  email: string;
+}
+
+export interface UserState {
+  user: User | null;
+  isLoading: boolean;
+  error: string | null;
+}
