@@ -9,6 +9,7 @@ import { UsersRepository } from '../repositories/UsersRepository';
 @Service()
 export class UsersController {
 
+
   /*   public userService: UsersService = Container.get(UsersService)
    */
 
@@ -20,9 +21,7 @@ export class UsersController {
   @Post('/register')
   async register(@Body() body: RegisterRequest, @Res() res: Response): Promise<any> {
 
-    debugger;
     const { username, email, password } = body;
-
 
     try {
       const user = await this.userService.findByEmail(email);
@@ -31,6 +30,7 @@ export class UsersController {
           message: 'User with this email already exists',
         });
       }
+      debugger
 
       await this.userService.createUser({
         username: username,

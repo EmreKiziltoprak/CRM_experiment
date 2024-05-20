@@ -17,8 +17,8 @@ export class UsersRepository {
     return user || null;
   }
 
-
   async createUser(user: Users) {
+    debugger;
     const saveUser = this.repository.create(user)
     return this.repository.save(saveUser)
   }

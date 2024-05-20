@@ -9,7 +9,6 @@ import { UsersRepository } from "./repositories/UsersRepository";
 
 const port = process.env.NODE_PORT || 3001;
 
-console.log("UsersController",UsersController)
 useContainer(Container);
 
 // Start server

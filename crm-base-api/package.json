@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node src/index.ts",
-    "dev": "nodemon --exec \"node --inspect-brk -r ts-node/register src/index.ts\"",
+    "dev": "nodemon --watch src -e ts,js --exec \"node --inspect -r ts-node/register src/index.ts\"",
     "dev2": "nodemon src/index.ts"
   },
   "keywords": [],
