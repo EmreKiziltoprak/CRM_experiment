@@ -15,14 +15,24 @@ export class UsersService {
     return await this.usersRepository.findByEmail(email);
   }
 
-  async createUser(userData: Partial<Users>): Promise<void> {
-    if (userData.password) {
-      const hashedPassword = await bcrypt.hash(userData.password, 10);
-      await this.usersRepository.createUser(userData as Users);
-    } else {
+  async createUser(userData: Users): Promise<void | Users> {
+    if (!userData.password) {
       throw new Error('Password is required');
+    }
+
+    // Create a complete user object with the provided data
+    const user = { ...userData };
+
+    try {
+      await this.usersRepository.createUser(user);
+      return user; // Return the created user object on success
+    } catch (error) {
+      // Handle creation errors appropriately (e.g., log the error)
+      console.error('Error creating user:', error);
+      throw error; // Re-throw the error for further handling
     }
   }
 
-  
+
+
 }

@@ -5,6 +5,7 @@ const swaggerSpec =  require("./swaggerConfig");
 import * as express from 'express';
 import * as mysql from 'mysql';
 import { createConnection } from 'typeorm';
+import { errorHandler } from './errors/errorHandler';
 var cors = require('cors')
 
 
@@ -16,6 +17,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+app.use(errorHandler); 
 
 //Add Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
