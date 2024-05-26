@@ -1,0 +1,77 @@
+/* globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+
+  /* colors */
+  --button-primary-color: black;
+  --primary-color: #cdd5de;
+  --secondary-color: #6c757d;
+  --card-background: #ced3d7;
+  --accent-color: #ffc107;
+  --card-color: white;
+  --border-radius-card: 10px;
+  --padding-card: 1rem;
+
+
+  /* Font sizes */
+  --font-extra-large-heading: 3rem;
+  /* New, very large heading */
+  --font-xlarge-heading: 2rem;
+  --font-large-heading: 1.5rem;
+  /* Adjusted for better hierarchy */
+  --font-medium-heading: 1.25rem;
+  /* Adjusted for better hierarchy */
+  --font-small-heading: 1rem;
+  /* New, smaller heading */
+
+  /* Padding */
+  --xxlarge-padding: 1.5em;
+  /* Adjusted for better spacing */
+  --xlarge-padding: 1.25em;
+  /* Adjusted for better spacing */
+  --large-padding: 1em;
+  /* Adjusted for better spacing */
+  --medium-padding: 0.75em;
+  --small-padding: 0.5em;
+  /* New, smaller padding */
+
+  /* Margin */
+  --xxlarge-margin: 1.5em;
+  /* Adjusted for better spacing */
+  --xlarge-margin: 1.25em;
+  /* Adjusted for better spacing */
+  --large-margin: 1em;
+  /* Adjusted for better spacing */
+  --medium-margin: 0.75em;
+  --small-margin: 0.5em;
+  /* New, smaller padding */
+
+  --small-gap: 1em;
+
+
+  /* Add more colors as needed */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0;
+}
+
+body {
+  margin: 0px;
+  height: 100%;
+}
+
+html {
+  height: 100% !important;
+}
+
+#__next {
+  height: 100% !important;
+  background-color: white;
+}

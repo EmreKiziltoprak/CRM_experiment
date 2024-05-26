@@ -3,9 +3,10 @@
     "target": "es6",
     "module": "commonjs",
     "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true
+    "strict": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "*.ts"],
   "exclude": ["node_modules"]
 }

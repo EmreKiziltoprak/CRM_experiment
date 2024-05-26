@@ -1,0 +1,54 @@
+.login {
+
+    display: flex;
+    align-items: center;
+    height: 100%;
+    background: linear-gradient(to bottom, #e0f2f1 0%, #c2dfee 100%);
+    justify-content: center;
+
+    &__card {
+        background-color: var(--card-color);
+        border-radius: var(--border-radius-card);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-width: 35%;
+        max-width: 500px;
+        padding: var(--padding-card);
+
+        &Form {
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+            margin-top: var(--small-padding);
+            flex-wrap: wrap;
+            align-items: center;
+            column-gap: var(--small-gap);
+            justify-content: center;
+        }
+
+        &Heading {
+            font-size: var(--font-medium-heading);
+            margin: 0 0 !important;
+        }
+
+        &Input {
+            width: 100%;
+            max-width: 200px;
+            margin: var(--small-margin) 0px;
+        }
+
+        &Submit {
+            width: 100%;
+            background-color: var(--button-primary-color);
+            max-width: 200px;
+
+            font-size: var(--font-large-heading);
+            padding: var(--small-padding);
+
+        }
+    }
+
+
+}
