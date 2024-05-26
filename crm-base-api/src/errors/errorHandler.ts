@@ -36,7 +36,7 @@ const errorHandler = async (
   if (isCustomError(err)) {
     // If the error is a custom error instance
     statusCode = err.statusCode;
-    responseData = { errorName: err.error, message: err.message, data: err.data };
+    responseData = { statusCode: statusCode, errorName: err.error, message: err.message, data: err.data };
   } else {
     // If the error is not a custom error instance
     const errorId = uuidv4(); // Generate a unique error ID
@@ -49,13 +49,14 @@ const errorHandler = async (
     }); // Log unexpected errors with error ID and details
 
     responseData = {
+      statusCode: statusCode,
       errorName: ErrorName.INTERNAL_ERROR,
       message: isProduction ? 'Internal Server Error' : 'An unexpected error occurred.',
     };
 
-      // Send standardized error response
-  res.status(statusCode).json(responseData);
-  return;
+    // Send standardized error response
+    res.status(statusCode).json(responseData);
+    return;
 
   }
 
@@ -64,18 +65,28 @@ const errorHandler = async (
 @Middleware({ type: 'after' })
 @Service() // Add the @Service decorator here
 export class CustomErrorHandler implements ExpressErrorMiddlewareInterface {
+
+  
   async error(error: any, request: Request, response: Response, next: NextFunction) {
+
+    if (response.headersSent) {
+      // If they were, log an error or do some other handling, but don't send a new response
+      console.error('Error after headers were sent:', error);
+      return; 
+  }
+
+  
     const isProduction = process.env.NODE_ENV === 'production';
     let statusCode = 500;
     let responseData: ErrorData<ErrorName>;
 
     if (isCustomError(error)) {
       statusCode = error.statusCode;
-      responseData = { errorName: error.error, message: error.message, data: error.data };
+      responseData = { statusCode: error.statusCode, errorName: error.error, message: error.message, data: error.data };
     } else if (error instanceof HttpError) {
       // Handle HttpError from routing-controllers
       statusCode = error.httpCode;
-      responseData = { errorName: ErrorName.INTERNAL_ERROR, message: error.message }; // Customize if needed
+      responseData = { statusCode: statusCode, errorName: ErrorName.INTERNAL_ERROR, message: error.message }; // Customize if needed
     } else {
       const errorId = uuidv4();
       await logger.error({
@@ -87,6 +98,7 @@ export class CustomErrorHandler implements ExpressErrorMiddlewareInterface {
       });
 
       responseData = {
+        statusCode: statusCode,
         errorName: ErrorName.INTERNAL_ERROR,
         message: isProduction ? 'Internal Server Error' : 'An unexpected error occurred.'
       };

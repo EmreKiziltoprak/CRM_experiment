@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { DatabaseError } from '../errors/customErrors';
 import { ValidationError } from '../errors/customErrors/validationError';
+import { sendSuccessResponse } from '../successResponse/success';
 
 @Controller('/users')
 @Service()
@@ -45,10 +46,10 @@ export class UsersController {
                     email: newlyCreatedUser.email,
                 },
                 "JWT_SECRET", // Replace with environment variable or secure configuration
-                { expiresIn: '1h' }
+                { expiresIn: '24h' }
             );
 
-            return res.json({ token }); 
+            return sendSuccessResponse(res, { token }, 'User registered successfully', 201);
 
         } catch (error) {
           debugger;
