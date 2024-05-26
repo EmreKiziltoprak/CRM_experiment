@@ -1,16 +1,14 @@
-// src/errors/errorCodes.ts
-
 // Import necessary modules
 import { v4 as uuidv4 } from 'uuid';
 
 // Define error code metadata
-interface ErrorCodeMetadata {
+interface ErrorNameMetadata {
   description: string;
   httpStatus: number;
 }
 
 // Enumerate error codes with metadata
-enum ErrorCode {
+enum ErrorName {
   INTERNAL_ERROR = 'INTERNAL_ERROR',
   UNAUTHORIZED = 'UNAUTHORIZED',
   DATABASE_ERROR = 'DATABASE_ERROR',
@@ -24,65 +22,79 @@ enum ErrorCode {
 }
 
 // Define error code metadata mapping
-const errorCodeMetadata: Record<ErrorCode, ErrorCodeMetadata> = {
-  [ErrorCode.INTERNAL_ERROR]: { description: 'Internal Server Error', httpStatus: 500 },
-  [ErrorCode.UNAUTHORIZED]: { description: 'Unauthorized', httpStatus: 401 },
-  [ErrorCode.DATABASE_ERROR]: { description: 'Database Error', httpStatus: 500 },
-  [ErrorCode.NOT_FOUND]: { description: 'Not Found', httpStatus: 404 },
-  [ErrorCode.VALIDATION_ERROR]: { description: 'Validation Error', httpStatus: 400 },
-  [ErrorCode.FORBIDDEN]: { description: 'Forbidden', httpStatus: 403 },
-  [ErrorCode.CONFLICT]: { description: 'Conflict', httpStatus: 409 },
-  [ErrorCode.BAD_REQUEST]: { description: 'Bad Request', httpStatus: 400 },
-  [ErrorCode.RATE_LIMIT_EXCEEDED]: { description: 'Rate Limit Exceeded', httpStatus: 429 },
-  [ErrorCode.SERVICE_UNAVAILABLE]: { description: 'Service Unavailable', httpStatus: 503 },
+const errorCodeMetadata: Record<ErrorName, ErrorNameMetadata> = {
+  [ErrorName.INTERNAL_ERROR]: { description: 'Internal Server Error', httpStatus: 500 },
+  [ErrorName.UNAUTHORIZED]: { description: 'Unauthorized', httpStatus: 401 },
+  [ErrorName.DATABASE_ERROR]: { description: 'Database Error', httpStatus: 500 },
+  [ErrorName.NOT_FOUND]: { description: 'Not Found', httpStatus: 404 },
+  [ErrorName.VALIDATION_ERROR]: { description: 'Validation Error', httpStatus: 400 },
+  [ErrorName.FORBIDDEN]: { description: 'Forbidden', httpStatus: 403 },
+  [ErrorName.CONFLICT]: { description: 'Conflict', httpStatus: 409 },
+  [ErrorName.BAD_REQUEST]: { description: 'Bad Request', httpStatus: 400 },
+  [ErrorName.RATE_LIMIT_EXCEEDED]: { description: 'Rate Limit Exceeded', httpStatus: 429 },
+  [ErrorName.SERVICE_UNAVAILABLE]: { description: 'Service Unavailable', httpStatus: 503 },
 };
 
-//  the error data types for each error code explicitly
+// Define the error data types for each error code explicitly
 type ErrorDataMap = {
-  [K in ErrorCode]: { message: string; [key: string]: any }; // Allow additional properties specific to each error code
+  [K in ErrorName]: { message: string; [key: string]: any };
 };
 
-// the error data interface using a generic type parameter
-interface ErrorData<T extends ErrorCode> {
-  code: T;
+// The error data interface using a generic type parameter
+interface ErrorData<T extends ErrorName> {
+  //comes from error enum
+  errorName: T;
+
   message: string;
-  data?: ErrorDataMap[T]; // Retrieve error-specific data based on the code
+
+  //custom data related with error enum
+  data?: ErrorDataMap[T];
 }
 
 // Custom error class with enhanced type safety
-class CustomError<T extends ErrorCode> extends Error {
-  readonly code: T;
+class CustomError<T extends ErrorName> extends Error {
+  
+  //error name from ErrorName enum type like 'INTERNAL_ERROR'
+  readonly error: T;
+  
+  //message from errorCodeMetadata like 'Internal Server Error'
+  readonly message: string;
+
+  //optional error data related with error name enum  'INTERNAL_ERROR'
   readonly data?: ErrorDataMap[T];
+
+  //unique error id created with uuidv4
   readonly id: string;
+
+  //statuscode like 400
   readonly statusCode: number;
 
-  constructor(code: T, message: string, statusCode: number, data?: ErrorDataMap[T]) {
+  constructor(error: T, message?: string, data?: ErrorDataMap[T]) {
     super(message);
-    this.code = code;
+    this.error = error;
+    this.message = errorCodeMetadata[error].description;
     this.data = data;
-    this.id = uuidv4(); // Generate a unique error ID
-    this.statusCode = statusCode;
-
+    this.id = uuidv4();
+    this.statusCode = errorCodeMetadata[error].httpStatus;
     Object.setPrototypeOf(this, new.target.prototype); // Maintain prototype chain
   }
 
-  static fromError(err: any): CustomError<ErrorCode.INTERNAL_ERROR> {
-    return new CustomError(ErrorCode.INTERNAL_ERROR, err.message, 500);
+  static fromError(err: any): CustomError<ErrorName.INTERNAL_ERROR> {
+    return new CustomError(ErrorName.INTERNAL_ERROR, err.message);
   }
 }
 
-
-
 // Type Guard for CustomError
-function isCustomError(error: any): error is CustomError<ErrorCode> {
+function isCustomError(error: any): error is CustomError<ErrorName> {
   return error instanceof CustomError;
 }
 
 // Export necessary components
 export {
-  ErrorCode,
-  ErrorCodeMetadata,
+  ErrorName,
+  ErrorNameMetadata,
   ErrorData,
+  ErrorDataMap,
   errorCodeMetadata,
   CustomError,
   isCustomError,

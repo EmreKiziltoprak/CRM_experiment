@@ -7,6 +7,7 @@ import * as mysql from 'mysql';
 import { createConnection } from 'typeorm';
 import { errorHandler } from './errors/errorHandler';
 var cors = require('cors')
+const router = express.Router();
 
 
 require('dotenv').config();
@@ -17,7 +18,6 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(errorHandler); 
 
 //Add Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

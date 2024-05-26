@@ -1,26 +1,21 @@
-import { CustomError, ErrorCode } from "./errorCodes";
+import { CustomError, ErrorData, ErrorName } from "./errorCodes";
 
 // Specific Error Classes (examples)
-export class UnauthorizedError extends CustomError<ErrorCode.UNAUTHORIZED> {
-    constructor(message = 'Unauthorized') {
-      super(ErrorCode.UNAUTHORIZED, message, 401);
-    }
+export class UnauthorizedError extends CustomError<ErrorName.UNAUTHORIZED> {
+  constructor(message = 'Unauthorized') {
+    super(ErrorName.UNAUTHORIZED, message);
   }
-  
-  export class DatabaseError extends CustomError<ErrorCode.DATABASE_ERROR> {
-    constructor(message = 'Database Error') {
-      super(ErrorCode.DATABASE_ERROR, message, 500);
-    }
+}
+
+export class DatabaseError extends CustomError<ErrorName.DATABASE_ERROR> {
+  constructor(message = 'Database Error') {
+    super(ErrorName.DATABASE_ERROR, message);
   }
-  
-  export class NotFoundError extends CustomError<ErrorCode.NOT_FOUND> {
-    constructor(message = 'Not Found') {
-      super(ErrorCode.NOT_FOUND, message, 404);
-    }
+}
+
+export class NotFoundError extends CustomError<ErrorName.NOT_FOUND> {
+  constructor(message = 'Not Found') {
+    super(ErrorName.NOT_FOUND, message);
   }
-  
-  export class ValidationError extends CustomError<ErrorCode.VALIDATION_ERROR> {
-    constructor(message = 'Validation Error') {
-      super(ErrorCode.VALIDATION_ERROR, message, 400);
-    }
-  }
+}
+
