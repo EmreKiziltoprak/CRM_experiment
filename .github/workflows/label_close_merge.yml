@@ -1,21 +1,39 @@
-- name: Assign Label to PR
+name: Assign Label on Merge
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  assign-label-on-merge:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      - name: Assign Label to PR
         uses: actions/github-script@v4
         with:
           github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
-            const { data: labels } = await github.issues.listLabelsOnIssue({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number
-            });
-
-            const existingLabels = labels.map(label => label.name);
-
-            const newLabels = [...existingLabels, 'done'];
-
-            await github.issues.setLabels({
+            github.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              labels: newLabels
-            });
+              labels: ['done']
+            })
+      
+      - name: Remove 'development' Label from PR
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
+          script: |
+            github.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              name: 'development'
+            })
+
+      # ... (Find Connected Issue and Assign Label to Issue steps remain the same)
