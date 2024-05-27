@@ -26,13 +26,13 @@ jobs:
         node-version: '20'
 
     - name: Install dependencies
-      run: yarn
-      working-directory: CRM-Project/crm-base-api
+      run: yarn install
+      working-directory: CRM-experiment/crm-base-api
 
     - name: Generate ORM config
       run: yarn run generate-ormconfig
-      working-directory: CRM-Project/crm-base-api
+      working-directory: CRM-experiment/crm-base-api
 
     - name: Run tests
       run: yarn test
-      working-directory: CRM-Project/crm-base-api
+      working-directory: CRM-experiment/crm-base-api
