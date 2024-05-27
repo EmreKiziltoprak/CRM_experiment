@@ -15,27 +15,30 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Print directory structure for debugging
       run: ls -R
+
+    - name: Print current directory
+      run: pwd
+
+    - name: Print CRM_experiment directory structure for debugging
+      run: ls -R CRM_experiment
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '20'
 
-    - name: Print current directory
-      run: pwd
-
     - name: Install dependencies
+      working-directory: CRM_experiment/crm-base-api
       run: yarn install
-      working-directory: /crm-base-api
 
     - name: Generate ORM config
+      working-directory: CRM_experiment/crm-base-api
       run: yarn run generate-ormconfig
-      working-directory: /crm-base-api
 
     - name: Run tests
+      working-directory: CRM_experiment/crm-base-api
       run: yarn test
-      working-directory: /crm-base-api
