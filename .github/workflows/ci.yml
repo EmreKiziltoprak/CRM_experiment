@@ -13,13 +13,12 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: CRM-Project/crm-base-api
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: Print directory structure for debugging
+      run: ls -R
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -28,9 +27,12 @@ jobs:
 
     - name: Install dependencies
       run: yarn
+      working-directory: CRM-Project/crm-base-api
 
     - name: Generate ORM config
       run: yarn run generate-ormconfig
+      working-directory: CRM-Project/crm-base-api
 
     - name: Run tests
       run: yarn test
+      working-directory: CRM-Project/crm-base-api
