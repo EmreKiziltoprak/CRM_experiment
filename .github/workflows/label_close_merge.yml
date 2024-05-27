@@ -36,4 +36,29 @@ jobs:
               name: 'development'
             })
 
-      # ... (Find Connected Issue and Assign Label to Issue steps remain the same)
+      - name: Assign Label to Issue
+        if: steps.find_issue.outputs.issue_number
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
+          script: |
+            github.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: steps.find_issue.outputs.issue_number,
+              labels: ['done']
+            })
+      
+      - name: Remove 'development' Label from Issue
+        if: steps.find_issue.outputs.issue_number
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
+          script: |
+            github.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: steps.find_issue.outputs.issue_number,
+              name: 'development'
+            })
+
