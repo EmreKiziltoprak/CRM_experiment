@@ -8,6 +8,7 @@ import * as jwt from 'jsonwebtoken';
 import { DatabaseError, UnauthorizedError } from '../errors/customErrors';
 import { ValidationError } from '../errors/customErrors/validationError';
 import { LoginRequest } from '../models/users/payload/request/LoginRequest';
+import { sendSuccessResponse } from '../successResponse/success';
 
 /**
  * Controller responsible for handling user-related endpoints.
@@ -65,7 +66,7 @@ export class UsersController {
                 { expiresIn: '1d' }
             );
 
-            return res.json({ token }); 
+            return sendSuccessResponse(res, { token }, 'User registered successfully', 201);
 
         } catch (error) {
           debugger;
