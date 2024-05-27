@@ -8,9 +8,6 @@
 .pnp.js
 .yarn/install-state.gz
 
-# testing
-/coverage
-
 # next.js
 /.next/
 /out/
@@ -39,3 +36,6 @@ next-env.d.ts
 
 # coverage
 /crm-base-api/coverage
+
+# crm-base-api
+/crm-base-api/.env
