@@ -6,36 +6,20 @@ on:
 
 jobs:
   assign-label-on-merge:
-    if: github.event.pull_request.merged == true 
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Check out the code
         uses: actions/checkout@v2
-      
+
       - name: Assign Label to PR
         uses: actions/github-script@v4
         with:
+          github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
             github.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               issue_number: context.issue.number,
               labels: ['done']
             })
-        env:
-          CRM_PULL_REQUEST_TOKEN: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
-
-      - name: Find Connected Issue
-        id: find_issue
-        run: echo "::set-output name=issue_number::$(jq --raw-output .issue.number $GITHUB_EVENT_PATH)"
-        if: github.event.pull_request.merged && github.event.pull_request.head.repo != github.event.pull_request.base.repo
-
-      - name: Assign Label to Issue
-        if: steps.find_issue.outputs.issue_number
-        uses: actions/github-script@v4
-        with:
-          script: |
-            github.issues.addLabels({
-              issue_number: ${{ steps.find_issue.outputs.issue_number }},
-              labels: ['done']
-            })
-        env:
-          CRM_PULL_REQUEST_TOKEN: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
