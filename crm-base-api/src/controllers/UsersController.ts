@@ -113,7 +113,7 @@ export class UsersController {
             );
 
             // Send token to client
-            return res.json({ token });
+            return sendSuccessResponse(res, { token }, 'User login successfully', 200);
 
         } catch (error) {
             throw error;

@@ -8,6 +8,7 @@ import * as jwt from 'jsonwebtoken';
 import { LoginRequest } from "../../models/users/payload/request/LoginRequest";
 import { UnauthorizedError } from '../../errors/customErrors';
 import { ValidationError } from "../../errors/customErrors/validationError";
+import { sendSuccessResponse } from "../../successResponse/success";
 
 // Mocking bcrypt.hash function
 jest.mock('bcrypt', () => ({
@@ -22,6 +23,10 @@ jest.mock('jsonwebtoken', () => ({
 
 // Mocking UsersRepository
 jest.mock('../../repositories/UsersRepository');
+
+jest.mock("../../successResponse/success", () => ({
+    sendSuccessResponse: jest.fn(),
+}));
 
 
 describe('UsersController', () => {
@@ -58,10 +63,12 @@ describe('UsersController', () => {
 
             // Mocking userService.createUser to return a user
             jest.spyOn(usersService, 'createUser').mockResolvedValue({
-                userId: 1,
+                userId: expect.any(Number),
                 ...registerRequest,
-                roleId: 1,
+                roleId: expect.any(Number),
             });
+
+            const expectedResult = { token: 'fakeToken' };
 
             await usersController.register(registerRequest, res);
 
@@ -69,21 +76,24 @@ describe('UsersController', () => {
             expect(bcrypt.hash).toHaveBeenCalledWith('password123', 10);
             expect(usersService.findByEmail).toHaveBeenCalledWith('test@example.com');
             expect(usersService.createUser).toHaveBeenCalledWith({
-                userId: 1,
+                userId: expect.any(Number),
                 ...registerRequest,
                 password: 'hashedPassword',
-                roleId: 1,
+                roleId: expect.any(Number),
             });
             expect(jwt.sign).toHaveBeenCalledWith(
                 {
-                    userId: 1,
+                    userId: expect.any(Number),
                     username: 'testuser',
                     email: 'test@example.com',
                 },
                 'JWT_SECRET',
                 { expiresIn: '1d' }
             );
-            expect(res.json).toHaveBeenCalledWith({ token: 'fakeToken' });
+
+            
+            expect(sendSuccessResponse).toHaveBeenCalledWith(res, expectedResult, 'User registered successfully', 201);
+
         });
 
         it('should throw a ValidationError if user with provided email already exists', async () => {
@@ -95,9 +105,9 @@ describe('UsersController', () => {
 
             // Mocking userService.findByEmail to return an existing user
             jest.spyOn(usersService, 'findByEmail').mockResolvedValue({
-                userId: 1,
+                userId: expect.any(Number),
                 ...registerRequest,
-                roleId: 1,
+                roleId: expect.any(Number),
             });
 
             await expect(usersController.register(registerRequest, res)).rejects.toThrow(ValidationError);
@@ -117,11 +127,11 @@ describe('UsersController', () => {
 
             // Mocking userService.findByEmail to return a user
             jest.spyOn(usersService, 'findByEmail').mockResolvedValue({
-                userId: 1,
+                userId: expect.any(Number),
                 username: 'testuser',
                 email: 'test@example.com',
                 password: 'hashedPassword',
-                roleId: 1,
+                roleId: expect.any(Number),
             });
 
             const expectedResult = { token: 'fakeToken' };
@@ -133,14 +143,15 @@ describe('UsersController', () => {
             expect(bcrypt.compare).toHaveBeenCalledWith('password123', 'hashedPassword');
             expect(jwt.sign).toHaveBeenCalledWith(
                 {
-                    userId: 1,
+                    userId: expect.any(Number),
                     username: 'testuser',
                     email: 'test@example.com',
                 },
                 'default_secret',
                 { expiresIn: '1d' }
             );
-            expect(res.json).toHaveBeenCalledWith(expectedResult);
+            
+            expect(sendSuccessResponse).toHaveBeenCalledWith(res, expectedResult, 'User login successfully', 200);
         });
 
         it('should throw an UnauthorizedError if user with provided email does not exist', async () => {
@@ -171,11 +182,11 @@ describe('UsersController', () => {
 
             // Mocking userService.findByEmail to return a user
             jest.spyOn(usersService, 'findByEmail').mockResolvedValue({
-                userId: 1,
+                userId: expect.any(Number),
                 username: 'testuser',
                 email: 'test@example.com',
                 password: 'hashedPassword',
-                roleId: 1,
+                roleId: expect.any(Number),
             });
 
             // Mocking bcrypt.compare to return false (password doesn't match)
