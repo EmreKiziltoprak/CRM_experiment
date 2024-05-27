@@ -61,7 +61,6 @@ const Register: React.FC<Props> = ({ locale }) => {
       setRegisterError("An unexpected error occurred.");
     }
   };
-  
 
 
   return (

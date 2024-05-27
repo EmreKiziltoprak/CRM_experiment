@@ -3,7 +3,7 @@
   "host": "localhost",
   "port": 3306,
   "username": "root",
-  "password": "ippavlova_1990",
+  "password": "12345",
   "database": "operational_database",
   "synchronize": true,
   "logging": true,
