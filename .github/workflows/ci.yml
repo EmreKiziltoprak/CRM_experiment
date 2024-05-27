@@ -25,6 +25,9 @@ jobs:
       with:
         node-version: '20'
 
+    - name: Print current directory
+      run: pwd
+
     - name: Install dependencies
       run: yarn install
       working-directory: CRM_experiment/crm-base-api
