@@ -3,6 +3,7 @@ export interface ILoginSuccess {
 } 
 
 export interface ILoginSuccess {
+    
     token: string;
 } 
 
