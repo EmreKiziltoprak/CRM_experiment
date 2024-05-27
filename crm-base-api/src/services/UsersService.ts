@@ -10,8 +10,6 @@ export class UsersService {
   constructor(@Inject() public usersRepository: UsersRepository) { }
 
   async findByEmail(email: string): Promise<Users | null> {
-    console.log("find by email");
-
     return await this.usersRepository.findByEmail(email);
   }
 

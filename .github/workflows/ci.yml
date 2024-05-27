@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Print directory structure for debugging
+      run: ls -R
+
+    - name: Print current directory
+      run: pwd
+
+    - name: Print crm-base-api directory structure for debugging
+      run: ls -R crm-base-api
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      working-directory: crm-base-api
+      run: yarn install
+
+    - name: Generate ORM config
+      working-directory: crm-base-api
+      run: yarn run generate-ormconfig
+
+    - name: Run tests
+      working-directory: crm-base-api
+      run: yarn test

@@ -45,6 +45,9 @@ interface ErrorData<T extends ErrorName> {
   //comes from error enum
   errorName: T;
 
+  //status code for error like 400
+  statusCode: number;
+  
   message: string;
 
   //custom data related with error enum

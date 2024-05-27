@@ -5,15 +5,33 @@ import { RegisterRequest } from '../models/users/payload/request/RegisterRequest
 import { Inject, Service } from 'typedi';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import { DatabaseError } from '../errors/customErrors';
+import { DatabaseError, UnauthorizedError } from '../errors/customErrors';
 import { ValidationError } from '../errors/customErrors/validationError';
+import { LoginRequest } from '../models/users/payload/request/LoginRequest';
+import { sendSuccessResponse } from '../successResponse/success';
 
+/**
+ * Controller responsible for handling user-related endpoints.
+ * @see {@link UsersController}
+ */
 @Controller('/users')
 @Service()
 export class UsersController {
 
+    /**
+     * Creates an instance of UsersController.
+     * @param {UsersService} userService - The user service instance for handling user-related operations.
+     */
     constructor(@Inject() public userService: UsersService) { }
 
+    /**
+     * Registers a new user.
+     * @param {RegisterRequest} body - The request body containing user registration information.
+     * @param {Response} res - The response object for sending HTTP responses.
+     * @returns {Promise<any>} A promise resolving to the authentication token if registration is successful.
+     * @throws {ValidationError} Throws a validation error if the user with the provided email already exists.
+     * @throws {HttpError} Throws an HTTP error if the user creation fails for reasons other than a database error.
+     */
     @Post('/register')
     async register(@Body() body: RegisterRequest, @Res() res: Response): Promise<any> {
         const { username, email, password } = body;
@@ -45,10 +63,10 @@ export class UsersController {
                     email: newlyCreatedUser.email,
                 },
                 "JWT_SECRET", // Replace with environment variable or secure configuration
-                { expiresIn: '1h' }
+                { expiresIn: '1d' }
             );
 
-            return res.json({ token }); 
+            return sendSuccessResponse(res, { token }, 'User registered successfully', 201);
 
         } catch (error) {
           debugger;
@@ -56,4 +74,50 @@ export class UsersController {
            throw error;
         }
     }
+
+    /**
+     * Logs in a user.
+     * @param {LoginRequest} body - The request body containing user login information.
+     * @param {Response} res - The response object for sending HTTP responses.
+     * @returns {Promise<any>} A promise resolving to the authentication token if login is successful.
+     * @throws {UnauthorizedError} Throws an unauthorized error if the provided credentials are invalid.
+     * @throws {HttpError} Throws an HTTP error if an unexpected error occurs during login.
+     */
+    @Post('/login')
+    async login(@Body() body: LoginRequest, @Res() res: Response): Promise<any> {
+        
+        const { email, password } = body;
+
+        try {
+            // Find user by email
+            const user = await this.userService.findByEmail(email);
+            if (!user) {
+                throw new UnauthorizedError('Invalid credentials');
+            }
+
+            // Compare provided password with stored hash
+            const passwordMatch = await bcrypt.compare(password, user.password);
+            if (!passwordMatch) {
+                throw new UnauthorizedError('Invalid credentials');
+            }
+
+            // Generate JWT token
+            const token = jwt.sign(
+                {
+                    userId: user.userId,
+                    username: user.username,
+                    email: user.email,
+                },
+                process.env.JWT_SECRET || 'default_secret', // Use environment variable or fallback to default
+                { expiresIn: '1d' }
+            );
+
+            // Send token to client
+            return sendSuccessResponse(res, { token }, 'User login successfully', 200);
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }
