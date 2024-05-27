@@ -6,7 +6,7 @@ import Image from 'next/image';
 import logo from "../../app/assets/logo/logo-no-background.svg";
 
 const Login: React.FC = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -28,11 +28,11 @@ const Login: React.FC = () => {
         <h6 className={styles.login__cardHeading}>Login</h6>
         <form onSubmit={handleSubmit} className={styles.login__cardForm}>
           <TextField
-            label="Username"
+            label="Email"
             variant="outlined"
             className={styles.login__cardInput}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             fullWidth
           />
           <TextField

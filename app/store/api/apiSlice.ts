@@ -4,20 +4,16 @@ import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolk
 import { User } from "../slices/registerSlice";
 
 
-
-export interface CustomError {
+export interface ApiResponse<T> {
   statusCode: number;
-  errorName: string;
-  message: string;
-  data?: {
-    message: string;
-    field?: string;
-    reason?: string;
-  };
+  success?: boolean;
+  errorName?: string;
+  data?: T extends null ? any : T; // Success response data (when T is not null)
+  message?: string;
 }
 
-const baseLink = "http://localhost:3307";
 
+const baseLink = "http://localhost:3307";
 const baseQuery = fetchBaseQuery({ baseUrl: baseLink });
 
 const baseQueryWithReauth: BaseQueryFn<
@@ -60,7 +56,7 @@ const baseQueryWithReauth: BaseQueryFn<
       result = await baseQuery(args, api, extraOptions);
     } else {
       // If refresh fails, sign out the user
-      await signOut(); 
+      await signOut();
       return result; // Or throw an error to handle the failed refresh
     }
   }
@@ -72,17 +68,24 @@ export const api = createApi({
   reducerPath: "apiz",
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
-    createUser: builder.mutation<
-    { statusCode: number; success: boolean; data: { token: string }; message: string } | CustomError,
-    User
-  >({ // Update the expected response type
+    //CREATE USER ENDPOINT
+    createUser: builder.mutation<ApiResponse<null>, User>({
       query: (userData) => ({
         url: "users/register",
         method: "POST",
         body: userData,
       }),
     }),
+    //CREATE USER ENDPOINT
+    loginUser: builder.mutation<ApiResponse<null>, Partial<User>>({
+      query: (userData) => ({
+        url: "users/login",
+        method: "POST",
+        body: userData,
+      }),
+    }),
   }),
+
 });
 
 export const { useCreateUserMutation } = api;
