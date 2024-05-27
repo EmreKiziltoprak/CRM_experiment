@@ -27,12 +27,12 @@ jobs:
 
     - name: Install dependencies
       run: yarn install
-      working-directory: CRM-experiment/crm-base-api
+      working-directory: CRM_experiment/crm-base-api
 
     - name: Generate ORM config
       run: yarn run generate-ormconfig
-      working-directory: CRM-experiment/crm-base-api
+      working-directory: CRM_experiment/crm-base-api
 
     - name: Run tests
       run: yarn test
-      working-directory: CRM-experiment/crm-base-api
+      working-directory: CRM_experiment/crm-base-api
