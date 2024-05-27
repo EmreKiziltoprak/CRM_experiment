@@ -17,6 +17,8 @@ jobs:
         with:
           script: |
             github.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               issue_number: context.issue.number,
               labels: ['done']
             })
@@ -25,15 +27,18 @@ jobs:
 
       - name: Find Connected Issue
         id: find_issue
-        run: echo "::set-output name=issue_number::$(jq --raw-output .issue.number $GITHUB_EVENT_PATH)"
-        if: github.event.pull_request.merged && github.event.pull_request.head.repo != github.event.pull_request.base.repo
-
+        run: |
+          issue_number=$(jq --raw-output '.pull_request.body | capture("#(?<issue_number>[0-9]+)") | .issue_number' $GITHUB_EVENT_PATH)
+          echo "::set-output name=issue_number::$issue_number"
+      
       - name: Assign Label to Issue
-        if: steps.find_issue.outputs.issue_number
+        if: steps.find_issue.outputs.issue_number != ''
         uses: actions/github-script@v4
         with:
           script: |
             github.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               issue_number: ${{ steps.find_issue.outputs.issue_number }},
               labels: ['done']
             })
