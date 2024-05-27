@@ -23,8 +23,8 @@ jobs:
     - name: Print current directory
       run: pwd
 
-    - name: Print CRM_experiment directory structure for debugging
-      run: ls -R CRM_experiment
+    - name: Print crm-base-api directory structure for debugging
+      run: ls -R crm-base-api
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -32,13 +32,13 @@ jobs:
         node-version: '20'
 
     - name: Install dependencies
-      working-directory: CRM_experiment/crm-base-api
+      working-directory: crm-base-api
       run: yarn install
 
     - name: Generate ORM config
-      working-directory: CRM_experiment/crm-base-api
+      working-directory: crm-base-api
       run: yarn run generate-ormconfig
 
     - name: Run tests
-      working-directory: CRM_experiment/crm-base-api
+      working-directory: crm-base-api
       run: yarn test
