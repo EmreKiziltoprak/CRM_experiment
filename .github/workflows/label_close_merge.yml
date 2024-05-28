@@ -54,8 +54,8 @@ jobs:
           
           # Set the connected issue number as an output
           echo "::set-output name=issue_number::$connected_issue"
-        shell: bash
-
+        shell: bash 
+      
       - name: Assign Label to Issue
         if: steps.find_issue.outputs.issue_number
         uses: actions/github-script@v6
