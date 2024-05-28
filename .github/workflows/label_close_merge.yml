@@ -64,7 +64,7 @@ jobs:
           script: |
             const issueNumber = ${{ steps.find_issue.outputs.issue_number }};
             console.log("Assigning label 'done' to issue:", issueNumber);
-            await github.issues.addLabels({
+            await github.rest.issues.addLabels({
               issue_number: issueNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -79,7 +79,7 @@ jobs:
           script: |
             const issueNumber = ${{ steps.find_issue.outputs.issue_number }};
             console.log("Removing label 'development' from issue:", issueNumber);
-            await github.issues.removeLabel({
+            await github.rest.issues.removeLabel({
               issue_number: issueNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
