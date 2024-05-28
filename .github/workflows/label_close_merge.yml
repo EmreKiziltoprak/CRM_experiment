@@ -16,6 +16,9 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v4
 
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install jq
+
       - name: Assign Label to PR
         uses: actions/github-script@v6
         with:
