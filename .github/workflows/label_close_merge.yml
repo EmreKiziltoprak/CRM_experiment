@@ -16,9 +16,6 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v4
 
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install jq
-
       - name: Assign Label to PR
         uses: actions/github-script@v6
         with:
@@ -46,12 +43,17 @@ jobs:
       - name: Find Connected Issue
         id: find_issue
         run: |
-          # Extract the connected issue number from the pull request body
-          connected_issue=$(jq --raw-output '.pull_request.body' <<< "${{ toJson(github.event) }}" | grep -o '#[0-9]\+' | head -n 1 | tr -d '#')
+          # Get the pull request body
+          pull_request_body=$(echo "${{ github.event.pull_request.body }}" | tr -d '\r')
+          
+          # Extract the connected issue number
+          connected_issue=$(echo "$pull_request_body" | grep -o '#[0-9]\+' | head -n 1 | tr -d '#')
+          
           # Debug output to verify the connected issue number
           echo "Connected Issue Number: $connected_issue"
+          
           # Set the connected issue number as an output
-          echo "::set-output name=issue_number::$connected_issue" 
+          echo "::set-output name=issue_number::$connected_issue"
         shell: bash
 
       - name: Assign Label to Issue
@@ -60,7 +62,7 @@ jobs:
         with:
           github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
-            const issueNumber = context.payload.pull_request.body.match(/#\d+/)[0].substring(1);
+            const issueNumber = ${{ steps.find_issue.outputs.issue_number }};
             console.log("Assigning label 'done' to issue:", issueNumber);
             await github.issues.addLabels({
               issue_number: issueNumber,
@@ -75,7 +77,7 @@ jobs:
         with:
           github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
-            const issueNumber = context.payload.pull_request.body.match(/#\d+/)[0].substring(1);
+            const issueNumber = ${{ steps.find_issue.outputs.issue_number }};
             console.log("Removing label 'development' from issue:", issueNumber);
             await github.issues.removeLabel({
               issue_number: issueNumber,
@@ -83,5 +85,6 @@ jobs:
               repo: context.repo.repo,
               name: 'development'
             });
+
 
 
