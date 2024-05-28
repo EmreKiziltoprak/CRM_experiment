@@ -56,9 +56,9 @@ jobs:
         with:
           github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
-            const issueNumber = context.payload.workflow.runs.jobs.find_issue.outputs.issue_number;
+            const issueNumber = steps.find_issue.outputs.issue_number;
             console.log("Assigning label 'done' to issue:", issueNumber);
-            github.rest.issues.addLabels({
+            await github.issues.addLabels({
               issue_number: issueNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -71,11 +71,12 @@ jobs:
         with:
           github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
-            const issueNumber = context.payload.workflow.runs.jobs.find_issue.outputs.issue_number;
+            const issueNumber = steps.find_issue.outputs.issue_number;
             console.log("Removing label 'development' from issue:", issueNumber);
-            github.rest.issues.removeLabel({
+            await github.issues.removeLabel({
               issue_number: issueNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
               name: 'development'
             });
+
