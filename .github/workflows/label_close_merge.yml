@@ -49,13 +49,15 @@ jobs:
           echo "Connected Issue Number: $connected_issue"
           # Set the connected issue number as an output
           echo "::set-output name=issue_number::$connected_issue" 
+        shell: bash
+
       - name: Assign Label to Issue
         if: steps.find_issue.outputs.issue_number
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
-            const issueNumber = steps.find_issue.outputs.issue_number;
+            const issueNumber = context.payload.pull_request.body.match(/#\d+/)[0].substring(1);
             console.log("Assigning label 'done' to issue:", issueNumber);
             await github.issues.addLabels({
               issue_number: issueNumber,
@@ -70,7 +72,7 @@ jobs:
         with:
           github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
-            const issueNumber = steps.find_issue.outputs.issue_number;
+            const issueNumber = context.payload.pull_request.body.match(/#\d+/)[0].substring(1);
             console.log("Removing label 'development' from issue:", issueNumber);
             await github.issues.removeLabel({
               issue_number: issueNumber,
@@ -78,4 +80,5 @@ jobs:
               repo: context.repo.repo,
               name: 'development'
             });
+
 
