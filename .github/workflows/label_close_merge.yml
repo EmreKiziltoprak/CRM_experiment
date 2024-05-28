@@ -8,10 +8,6 @@ jobs:
   assign-label-on-merge:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
 
     steps:
       - name: Check out the code
@@ -20,7 +16,7 @@ jobs:
       - name: Assign Label to PR
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
             github.rest.issues.addLabels({
               issue_number: context.issue.number,
@@ -32,7 +28,7 @@ jobs:
       - name: Remove 'development' Label from PR
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }} # Use the default GITHUB_TOKEN
+          github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
             github.rest.issues.removeLabel({
               issue_number: context.issue.number,
@@ -52,7 +48,7 @@ jobs:
         if: steps.find_issue.outputs.issue_number
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
             github.rest.issues.addLabels({
               issue_number: ${{ steps.find_issue.outputs.issue_number }},
@@ -65,7 +61,7 @@ jobs:
         if: steps.find_issue.outputs.issue_number
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
             github.rest.issues.removeLabel({
               issue_number: ${{ steps.find_issue.outputs.issue_number }},
