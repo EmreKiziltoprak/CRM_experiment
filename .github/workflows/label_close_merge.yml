@@ -43,8 +43,11 @@ jobs:
       - name: Find Connected Issue
         id: find_issue
         run: |
-          connected_issue=$(jq --raw-output '.pull_request.body' $GITHUB_EVENT_PATH | grep -o '#[0-9]\+' | head -n 1 | tr -d '#')
+          # Extract the connected issue number from the pull request body
+          connected_issue=$(jq --raw-output '.pull_request.body' <<< "${{ toJson(github.event) }}" | grep -o '#[0-9]\+' | head -n 1 | tr -d '#')
+          # Debug output to verify the connected issue number
           echo "Connected Issue Number: $connected_issue"
+          # Set the connected issue number as an output
           echo "::set-output name=issue_number::$connected_issue"
 
       - name: Assign Label to Issue
