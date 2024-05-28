@@ -10,10 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions: 
       issues: write 
+      pull-requests: write
 
     steps:
       - name: Check out the code
-        uses: actions/checkout@v4 # Updated to v4
+        uses: actions/checkout@v4
 
       - name: Assign Label to PR
         uses: actions/github-script@v6
@@ -21,7 +22,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             github.rest.issues.addLabels({
-              issue_number: context.issue.number,
+              issue_number: context.payload.pull_request.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['done']
@@ -30,9 +31,8 @@ jobs:
       - name: Find Connected Issue
         id: find_issue
         run: |
-          if [[ "$GITHUB_EVENT_PATH" == *".json" ]]; then
-            echo "::set-output name=issue_number::$(jq --raw-output .issue.number $GITHUB_EVENT_PATH)"
-          fi
+          connected_issue=$(jq --raw-output '.pull_request.body' $GITHUB_EVENT_PATH | grep -o '#[0-9]\+' | head -n 1 | tr -d '#')
+          echo "::set-output name=issue_number::${connected_issue}"
         if: github.event.pull_request.merged && github.event.pull_request.head.repo != github.event.pull_request.base.repo
 
       - name: Assign Label to Issue
