@@ -9,13 +9,14 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions: 
-      issues: write #add permission to enable writing labels to issue
+      issues: write 
+
     steps:
       - name: Check out the code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # Updated to v4
 
       - name: Assign Label to PR
-        uses: actions/github-script@v6 #Update to latest version
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -38,7 +39,7 @@ jobs:
         if: steps.find_issue.outputs.issue_number
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }} 
           script: |
             github.rest.issues.addLabels({
               issue_number: ${{ steps.find_issue.outputs.issue_number }},
