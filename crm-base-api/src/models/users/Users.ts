@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
 import { IUsers } from './IUsers';
+import { UserDetails } from '../userdetails/UserDetails';
 
 
-@Entity({ name: 'users' })
+@Entity({ name: 'user' })
 export class Users implements IUsers {
   
   @PrimaryGeneratedColumn({ name: 'user_id' })
@@ -19,6 +20,9 @@ export class Users implements IUsers {
 
   @Column({ name: 'role_id', type: 'int' })
   roleId!: number;
+
+  @OneToOne(() => UserDetails, details => details.user)
+  userDetails!: UserDetails;
   
 }
 

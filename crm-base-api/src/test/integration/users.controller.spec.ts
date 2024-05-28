@@ -2,13 +2,14 @@ import { UsersController } from "../../controllers/UsersController";
 import { RegisterRequest } from "../../models/users/payload/request/RegisterRequest";
 import { UsersRepository } from "../../repositories/UsersRepository";
 import { UsersService } from "../../services/UsersService";
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { LoginRequest } from "../../models/users/payload/request/LoginRequest";
-import { UnauthorizedError } from '../../errors/customErrors';
+import { NotFoundError, UnauthorizedError } from '../../errors/customErrors';
 import { ValidationError } from "../../errors/customErrors/validationError";
 import { sendSuccessResponse } from "../../successResponse/success";
+import { UserDetails } from "../../models/userdetails/UserDetails";
 
 // Mocking bcrypt.hash function
 jest.mock('bcrypt', () => ({
@@ -19,6 +20,7 @@ jest.mock('bcrypt', () => ({
 // Mocking jwt.sign function
 jest.mock('jsonwebtoken', () => ({
     sign: jest.fn().mockReturnValue('fakeToken'),
+    verify: jest.fn().mockReturnValue({ userId: 1 })
 }));
 
 // Mocking UsersRepository
@@ -35,15 +37,24 @@ describe('UsersController', () => {
     let usersService: UsersService;
     let usersRepository: UsersRepository;
     let res: Response;
+    let req: Request;
 
     beforeEach(() => {
         usersRepository = new UsersRepository();
         usersService = new UsersService(usersRepository);
         usersController = new UsersController(usersService);
+        req = {
+            headers: {
+                authorization: 'Bearer fakeToken',
+            },
+        } as any;
         res = {
             json: jest.fn(),
             status: jest.fn().mockReturnThis(),
         } as any;
+
+        jest.spyOn(usersService, 'getUserInfo');
+
     });
 
     afterEach(() => {
@@ -58,6 +69,17 @@ describe('UsersController', () => {
                 password: 'password123',
             };
 
+            const userDetails: UserDetails = {
+                detailId: 1,
+                firstName: 'John',
+                lastName: 'Doe',
+                language: 'en',
+                dateFormat: 'MM/DD/YYYY',
+                phoneNumber: '1234567890',
+                profilePicture: 'profile.jpg',
+                user: undefined,
+            };
+
             // Mocking userService.findByEmail to return null (user doesn't exist)
             jest.spyOn(usersService, 'findByEmail').mockResolvedValue(null);
 
@@ -65,7 +87,9 @@ describe('UsersController', () => {
             jest.spyOn(usersService, 'createUser').mockResolvedValue({
                 userId: expect.any(Number),
                 ...registerRequest,
+                password: 'hashedPassword',
                 roleId: expect.any(Number),
+                userDetails: userDetails,
             });
 
             const expectedResult = { token: 'fakeToken' };
@@ -76,10 +100,9 @@ describe('UsersController', () => {
             expect(bcrypt.hash).toHaveBeenCalledWith('password123', 10);
             expect(usersService.findByEmail).toHaveBeenCalledWith('test@example.com');
             expect(usersService.createUser).toHaveBeenCalledWith({
-                userId: expect.any(Number),
                 ...registerRequest,
                 password: 'hashedPassword',
-                roleId: expect.any(Number),
+                roleId: 1,
             });
             expect(jwt.sign).toHaveBeenCalledWith(
                 {
@@ -103,11 +126,23 @@ describe('UsersController', () => {
                 password: 'password123',
             };
 
+            const userDetails: UserDetails = {
+                detailId: 1,
+                firstName: 'John',
+                lastName: 'Doe',
+                language: 'en',
+                dateFormat: 'MM/DD/YYYY',
+                phoneNumber: '1234567890',
+                profilePicture: 'profile.jpg',
+                user: undefined,
+            };
+
             // Mocking userService.findByEmail to return an existing user
             jest.spyOn(usersService, 'findByEmail').mockResolvedValue({
                 userId: expect.any(Number),
                 ...registerRequest,
                 roleId: expect.any(Number),
+                userDetails: userDetails,
             });
 
             await expect(usersController.register(registerRequest, res)).rejects.toThrow(ValidationError);
@@ -125,6 +160,17 @@ describe('UsersController', () => {
                 password: 'password123',
             };
 
+            const userDetails: UserDetails = {
+                detailId: 1,
+                firstName: 'John',
+                lastName: 'Doe',
+                language: 'en',
+                dateFormat: 'MM/DD/YYYY',
+                phoneNumber: '1234567890',
+                profilePicture: 'profile.jpg',
+                user: undefined,
+            };
+
             // Mocking userService.findByEmail to return a user
             jest.spyOn(usersService, 'findByEmail').mockResolvedValue({
                 userId: expect.any(Number),
@@ -132,6 +178,7 @@ describe('UsersController', () => {
                 email: 'test@example.com',
                 password: 'hashedPassword',
                 roleId: expect.any(Number),
+                userDetails: userDetails,
             });
 
             const expectedResult = { token: 'fakeToken' };
@@ -180,6 +227,17 @@ describe('UsersController', () => {
                 password: 'wrongPassword',
             };
 
+            const userDetails: UserDetails = {
+                detailId: 1,
+                firstName: 'John',
+                lastName: 'Doe',
+                language: 'en',
+                dateFormat: 'MM/DD/YYYY',
+                phoneNumber: '1234567890',
+                profilePicture: 'profile.jpg',
+                user: undefined,
+            };
+
             // Mocking userService.findByEmail to return a user
             jest.spyOn(usersService, 'findByEmail').mockResolvedValue({
                 userId: expect.any(Number),
@@ -187,6 +245,7 @@ describe('UsersController', () => {
                 email: 'test@example.com',
                 password: 'hashedPassword',
                 roleId: expect.any(Number),
+                userDetails: userDetails,
             });
 
             // Mocking bcrypt.compare to return false (password doesn't match)
@@ -203,6 +262,71 @@ describe('UsersController', () => {
             }
         });
         
+        
+    });
+
+    describe('getUserInfo', () => {
+        it('should retrieve user information', async () => {
+            const userInfo = {
+                userId: 1,
+                username: 'testuser',
+                email: 'test@example.com',
+                firstName: 'Test',
+                lastName: 'User',
+                language: 'en',
+                dateFormat: 'YYYY-MM-DD',
+                phoneNumber: '1234567890',
+                profilePicture: 'profile.jpg'
+            };
+
+            // Mocking userService.getUserInfo to return user information
+            jest.spyOn(usersService, 'getUserInfo').mockResolvedValue(userInfo);
+
+            await usersController.getUserInfo(req, res);
+
+            // Assertions
+            expect(jwt.verify).toHaveBeenCalledWith('fakeToken', 'default_secret');
+            expect(usersService.getUserInfo).toHaveBeenCalledWith(1);
+            expect(sendSuccessResponse).toHaveBeenCalledWith(res, userInfo, 'User details retrieved successfully', 200);
+        });
+
+        it('should throw UnauthorizedError if token is missing', async () => {
+            req.headers.authorization = undefined;
+        
+            // Ensure that getUserInfo is not called if the token is missing
+            expect(usersService.getUserInfo).not.toHaveBeenCalled();
+        
+            await expect(usersController.getUserInfo(req, res)).rejects.toThrow(UnauthorizedError);
+        });
+        
+
+        it('should throw UnauthorizedError if token is invalid', async () => {
+            (jwt.verify as jest.Mock).mockImplementation(() => { throw new Error('Invalid token'); });
+        
+            try {
+                await usersController.getUserInfo(req, res);
+                throw new Error('Expected function to throw an error');
+            } catch (error) {
+                // Assert that the error is an instance of UnauthorizedError
+                expect(error).toBeInstanceOf(UnauthorizedError);
+                // Assert that the error message matches
+                expect(error.message).toBe('Unauthorized');
+            }
+        });
+        
+
+        it('should throw NotFoundError if user information is not found', async () => {
+            // Mocking userService.getUserInfo to return null
+            jest.spyOn(usersService, 'getUserInfo').mockResolvedValue(null);
+        
+            // Mocking jwt.verify to return null (invalid token)
+            (jwt.verify as jest.Mock).mockReturnValue(null);
+        
+            await expect(usersController.getUserInfo(req, res)).rejects.toThrow(UnauthorizedError);
+        
+            // Assertions
+            expect(jwt.verify).toHaveBeenCalledWith('fakeToken', 'default_secret');
+        });
         
     });
 

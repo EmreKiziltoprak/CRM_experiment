@@ -1,4 +1,6 @@
+import { UserDetails } from "../../../models/userdetails/UserDetails";
 import { Users } from "../../../models/users/Users";
+import { UserInfoResponse } from "../../../models/users/payload/response/UserInfoResponse";
 import { UsersRepository } from "../../../repositories/UsersRepository";
 import { UsersService } from "../../../services/UsersService";
 
@@ -15,12 +17,24 @@ describe('UsersService', () => {
 
   describe('findByEmail', () => {
     it('should return a user if found', async () => {
+      const userDetails: UserDetails = {
+        detailId: 1,
+        firstName: 'John',
+        lastName: 'Doe',
+        language: 'en',
+        dateFormat: 'MM/DD/YYYY',
+        phoneNumber: '1234567890',
+        profilePicture: 'profile.jpg',
+        user: undefined // You can omit this if it's circular
+      };
+
       const user: Users = {
         email: 'test@example.com',
         password: 'password123',
         username: 'testuser',
         userId: 1,
-        roleId: 1
+        roleId: 1,
+        userDetails: userDetails
       };
       usersRepository.findByEmail.mockResolvedValue(user);
 
@@ -44,12 +58,24 @@ describe('UsersService', () => {
 
   describe('createUser', () => {
     it('should create and return a user', async () => {
+      const userDetails: UserDetails = {
+        detailId: 1,
+        firstName: 'John',
+        lastName: 'Doe',
+        language: 'en',
+        dateFormat: 'MM/DD/YYYY',
+        phoneNumber: '1234567890',
+        profilePicture: 'profile.jpg',
+        user: undefined // You can omit this if it's circular
+      };
+
       const user: Users = {
         email: 'test@example.com',
         password: 'password123',
         username: 'testuser',
         userId: 1,
-        roleId: 1
+        roleId: 1,
+        userDetails: userDetails
       };
       usersRepository.createUser.mockResolvedValue(user);
 
@@ -61,13 +87,11 @@ describe('UsersService', () => {
     });
 
     it('should throw an error if password is missing', async () => {
-      const user: Users = {
+      const user = {
         email: 'test@example.com',
-        password: '', // Password is missing
         username: 'testuser',
-        userId: 1,
         roleId: 1
-      };
+      } as Users;
 
       await expect(usersService.createUser(user)).rejects.toThrow('Password is required');
       expect(usersRepository.createUser).not.toHaveBeenCalled();
@@ -79,7 +103,8 @@ describe('UsersService', () => {
         password: 'password123',
         username: 'testuser',
         userId: 1,
-        roleId: 1
+        roleId: 1,
+        userDetails: undefined
       };
       const error = new Error('Repository error');
       usersRepository.createUser.mockRejectedValue(error);
@@ -89,4 +114,77 @@ describe('UsersService', () => {
       expect(usersRepository.createUser).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('getUserInfo', () => {
+    it('should return user info when user details are found', async () => {
+      const userDetails: UserDetails = {
+        detailId: 1,
+        firstName: 'John',
+        lastName: 'Doe',
+        language: 'en',
+        dateFormat: 'MM/DD/YYYY',
+        phoneNumber: '1234567890',
+        profilePicture: 'profile.jpg',
+        user: undefined // Assuming UserDetails has a relation to Users
+      };
+
+      usersRepository.findUserDetailsByUserId.mockResolvedValue(userDetails);
+
+      const expectedUserInfo: UserInfoResponse = {
+        firstName: 'John',
+        lastName: 'Doe',
+        language: 'en',
+        dateFormat: 'MM/DD/YYYY',
+        phoneNumber: '1234567890',
+        profilePicture: 'profile.jpg'
+      };
+
+      const result = await usersService.getUserInfo(1);
+
+      expect(result).toStrictEqual(expectedUserInfo);
+      expect(usersRepository.findUserDetailsByUserId).toHaveBeenCalledWith(1);
+      expect(usersRepository.findUserDetailsByUserId).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return user info with username and email when user is found', async () => {
+      const user: Users = {
+          userId: 1,
+          username: 'testuser',
+          email: 'test@example.com',
+          password: 'password123',
+          roleId: 1,
+          userDetails: undefined,
+      };
+  
+      usersRepository.findUserDetailsByUserId.mockResolvedValue(user);
+  
+      const expectedUserInfo: UserInfoResponse = {
+          firstName: undefined,
+          lastName: undefined,
+          language: undefined,
+          dateFormat: undefined,
+          phoneNumber: undefined,
+          profilePicture: undefined
+      };
+  
+      const result = await usersService.getUserInfo(1);
+  
+      expect(result).toStrictEqual(expectedUserInfo);
+      expect(usersRepository.findUserDetailsByUserId).toHaveBeenCalledWith(1);
+      expect(usersRepository.findUserDetailsByUserId).toHaveBeenCalledTimes(1);
+  });
+  
+
+    it('should return null if user details are not found', async () => {
+      usersRepository.findUserDetailsByUserId.mockResolvedValue(null);
+
+      const result = await usersService.getUserInfo(1);
+
+      expect(result).toBeNull();
+      expect(usersRepository.findUserDetailsByUserId).toHaveBeenCalledWith(1);
+      expect(usersRepository.findUserDetailsByUserId).toHaveBeenCalledTimes(1);
+    });
+  });
+
+
 });
