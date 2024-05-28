@@ -8,6 +8,9 @@ jobs:
   assign-label-on-merge:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
 
     steps:
       - name: Check out the code
@@ -50,12 +53,19 @@ jobs:
         with:
           github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
-            github.rest.issues.addLabels({
-              issue_number: ${{ steps.find_issue.outputs.issue_number }},
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: ['done']
-            })
+            try {
+              github.rest.issues.addLabels({
+                issue_number: ${{ steps.find_issue.outputs.issue_number }},
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['done']
+              })
+            } catch (error) {
+              // If label isn't present, ignore the error
+              if (!error.message.includes("Label does not exist")) {
+                throw error;
+              }
+            }
 
       - name: Remove 'development' Label from Issue
         if: steps.find_issue.outputs.issue_number
@@ -63,9 +73,16 @@ jobs:
         with:
           github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
-            github.rest.issues.removeLabel({
-              issue_number: ${{ steps.find_issue.outputs.issue_number }},
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              name: 'development'
-            })
+            try {
+              github.rest.issues.removeLabel({
+                issue_number: ${{ steps.find_issue.outputs.issue_number }},
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: 'development'
+              })
+            } catch (error) {
+              // If label isn't present, ignore the error
+              if (!error.message.includes("Label does not exist")) {
+                throw error;
+              }
+            }
