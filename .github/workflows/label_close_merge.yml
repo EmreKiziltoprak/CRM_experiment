@@ -56,19 +56,14 @@ jobs:
         with:
           github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
-            try {
-              github.rest.issues.addLabels({
-                issue_number: ${{ steps.find_issue.outputs.issue_number }},
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                labels: ['done']
-              })
-            } catch (error) {
-              // If label isn't present, ignore the error
-              if (!error.message.includes("Label does not exist")) {
-                throw error;
-              }
-            }
+            const issueNumber = context.payload.workflow.runs.jobs.find_issue.outputs.issue_number;
+            console.log("Assigning label 'done' to issue:", issueNumber);
+            github.rest.issues.addLabels({
+              issue_number: issueNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['done']
+            });
 
       - name: Remove 'development' Label from Issue
         if: steps.find_issue.outputs.issue_number
@@ -76,16 +71,11 @@ jobs:
         with:
           github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
-            try {
-              github.rest.issues.removeLabel({
-                issue_number: ${{ steps.find_issue.outputs.issue_number }},
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                name: 'development'
-              })
-            } catch (error) {
-              // If label isn't present, ignore the error
-              if (!error.message.includes("Label does not exist")) {
-                throw error;
-              }
-            }
+            const issueNumber = context.payload.workflow.runs.jobs.find_issue.outputs.issue_number;
+            console.log("Removing label 'development' from issue:", issueNumber);
+            github.rest.issues.removeLabel({
+              issue_number: issueNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'development'
+            });
