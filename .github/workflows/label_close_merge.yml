@@ -9,8 +9,8 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions: 
-      issues: write 
-      pull-requests: write
+      issues: write
+      pull_requests: write
 
     steps:
       - name: Check out the code
@@ -22,21 +22,21 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             github.rest.issues.addLabels({
-              issue_number: context.payload.pull_request.number,
+              issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['done']
             })
 
-       - name: Remove 'development' Label from PR
+      - name: Remove 'development' Label from PR
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }} # Use the default GITHUB_TOKEN
           script: |
-            github.issues.removeLabel({
+            github.rest.issues.removeLabel({
+              issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.issue.number,
               name: 'development'
             })
 
