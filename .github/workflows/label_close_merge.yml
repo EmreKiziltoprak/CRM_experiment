@@ -48,8 +48,7 @@ jobs:
           # Debug output to verify the connected issue number
           echo "Connected Issue Number: $connected_issue"
           # Set the connected issue number as an output
-          echo "::set-output name=issue_number::$connected_issue"
-
+          echo "::set-output name=issue_number::$connected_issue" 
       - name: Assign Label to Issue
         if: steps.find_issue.outputs.issue_number
         uses: actions/github-script@v6
