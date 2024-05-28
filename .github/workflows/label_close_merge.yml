@@ -8,8 +8,10 @@ jobs:
   assign-label-on-merge:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    permissions: 
-      issues: write
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
 
     steps:
       - name: Check out the code
