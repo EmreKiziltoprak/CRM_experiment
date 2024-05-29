@@ -1,0 +1,61 @@
+$topbarH: 64px;
+
+.profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  &__card {
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 20px;
+    max-width: 500px;
+    width: 100%;
+    
+    // Corrected height calculation:
+    height: calc(100% - #{$topbarH}); // Use calc() for dynamic subtraction
+
+
+    display: flex;
+    flex-direction: column;
+    align-items: center; // Center horizontally
+    justify-content: center;
+    gap: 20px;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Add shadow effect
+
+    &__heading {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    &__form {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+
+      input {
+        width: 100%;
+      }
+    }
+
+    &__save {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+}
