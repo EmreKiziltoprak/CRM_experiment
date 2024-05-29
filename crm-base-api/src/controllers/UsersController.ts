@@ -133,13 +133,17 @@ export class UsersController {
      */
     @Get('/info')
     async getUserInfo(@Req() req: Request, @Res() res: Response): Promise<any> {
+        
         try {
+
             const token = req.headers.authorization?.split(' ')[1];
+
             if (!token) {
                 throw new UnauthorizedError('Token is required');
             }
 
             let userId;
+
             try {
                 const decoded: any = jwt.verify(token, process.env.JWT_SECRET || 'default_secret');
                 userId = decoded.userId;
