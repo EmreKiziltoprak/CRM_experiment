@@ -4,7 +4,7 @@ import Image from "next/image";
 import classes from './style.module.scss';
 import logo from "../../app/assets/logo/logo-no-background.svg";
 import { useTranslations } from 'next-intl';
-import { CustomError, useCreateUserMutation } from '@/app/store/api/apiSlice';
+import {  useCreateUserMutation } from '@/app/store/api/apiSlice';
 import { RegisterUserDTO } from '@/app/store/slices/registerSlice';
 import { useRouter } from 'next/router';
 import { signIn } from "next-auth/react"; // Import signIn
@@ -37,7 +37,6 @@ const Register: React.FC<Props> = ({ locale }) => {
     try {
       const result: any = await createUser(formData);
   
-      debugger;
 
       console.log("error", result);
 
