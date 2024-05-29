@@ -15,7 +15,6 @@ const LanguageProvider: React.FC<LanguageProviderProps> = ({ children, messages 
 
   console.log("language", language);
   useEffect(() => {
-    debugger;
 
     import(`../../../messages/${language}.json`).then((messages) => {
         setMessages(messages)

@@ -1,11 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getSession, signOut } from "next-auth/react";
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { User } from "../slices/registerSlice";
+import { RegisterUserDTO, User } from "../slices/registerSlice";
+import { ILoginSuccess } from "../interface/auth";
 
 
 export interface ApiResponse<T> {
-  statusCode: number;
+  statusCode?: number;
+  status?: number;
   success?: boolean;
   errorName?: string;
   data?: T extends null ? any : T; // Success response data (when T is not null)
@@ -47,7 +49,7 @@ const baseQueryWithReauth: BaseQueryFn<
   let result = await baseQuery(args, api, extraOptions);
 
   // Handle 401 Unauthorized errors
-  if (result.error && result.error.status === 401) {
+/*   if (result.error && result.error.status === 401) {
     // Attempt to refresh token (if your backend has this endpoint)
     const refreshResult = await baseQuery("/refresh", api, extraOptions);
 
@@ -59,33 +61,49 @@ const baseQueryWithReauth: BaseQueryFn<
       await signOut();
       return result; // Or throw an error to handle the failed refresh
     }
-  }
+  } */
 
   return result;
 };
 
+ /* 
+ {
+	"statusCode": 401,
+	"errorName": "UNAUTHORIZED",
+	"message": "Unauthorized"
+}
+ */
+
 export const api = createApi({
   reducerPath: "apiz",
   baseQuery: baseQueryWithReauth,
+  // global configuration for the api
+  refetchOnFocus: false,
+  tagTypes: ['Post', 'User'],
+
   endpoints: (builder) => ({
     //CREATE USER ENDPOINT
-    createUser: builder.mutation<ApiResponse<null>, User>({
+    createUser: builder.mutation<ApiResponse<ILoginSuccess | null>, User>({
       query: (userData) => ({
         url: "users/register",
         method: "POST",
         body: userData,
       }),
     }),
-    //CREATE USER ENDPOINT
-    loginUser: builder.mutation<ApiResponse<null>, Partial<User>>({
+    loginUser: builder.mutation<ApiResponse<ILoginSuccess | null>, { email: string, password: string }>({
       query: (userData) => ({
         url: "users/login",
         method: "POST",
         body: userData,
       }),
+      invalidatesTags: ['Post'],
+
     }),
+
+
+
   }),
 
 });
 
-export const { useCreateUserMutation } = api;
+export const { useCreateUserMutation, useLoginUserMutation } = api;
