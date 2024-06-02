@@ -1,12 +1,20 @@
-# Intellisense
+# Intellisense  
+
+[![Test Status](https://github.com/EmreKiziltoprak/Intellisense-V1.0.0/actions/workflows/ci.yml/badge.svg)](https://github.com/EmreKiziltoprak/Intellisense-V1.0.0/actions/workflows/ci.yml)
+
+[![Assign Label on Merge](https://github.com/EmreKiziltoprak/Intellisense-V1.0.0/actions/workflows/label_close_merge.yml/badge.svg)](https://github.com/EmreKiziltoprak/Intellisense-V1.0.0/actions/workflows/label_close_merge.yml)
+
 
 Empower your sales team with Intellisense, a comprehensive platform designed to streamline and optimize your sales processes. Track leads, manage customer relationships, forecast sales, and gain valuable insights with our intuitive interface and powerful API.
 
-maintainer: @Emre Kiziltoprak @Sercan Noyan Germiyanoglu
+### Technologies
+
+- Next.js
+- MySQL
+- JWT
+- Restful API
 
 Folder Structure
-
-Front End Next.js App: 
 
 Intellisense Front End:
 ```
@@ -89,3 +97,8 @@ This project is licensed under the MIT License. See the LICENSE file for details
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Contributors
+
+- [Emre Kızıltoprak](https://github.com/EmreKiziltoprak)
+- [Sercan Noyan Germiyanoğlu](https://github.com/Rapter1990)
