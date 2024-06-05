@@ -2,9 +2,6 @@
 
 [![Test Status](https://github.com/EmreKiziltoprak/Intellisense-V1.0.0/actions/workflows/ci.yml/badge.svg)](https://github.com/EmreKiziltoprak/Intellisense-V1.0.0/actions/workflows/ci.yml)
 
-[![Assign Label on Merge](https://github.com/EmreKiziltoprak/Intellisense-V1.0.0/actions/workflows/label_close_merge.yml/badge.svg)](https://github.com/EmreKiziltoprak/Intellisense-V1.0.0/actions/workflows/label_close_merge.yml)
-
-
 Empower your sales team with Intellisense, a comprehensive platform designed to streamline and optimize your sales processes. Track leads, manage customer relationships, forecast sales, and gain valuable insights with our intuitive interface and powerful API.
 
 ### Technologies
