@@ -2,12 +2,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './slices/registerSlice'; // Corrected import
 import languageReducer from './slices/languageSlice';
+import userProfileReducer from './slices/userSlice';
 import { api } from './api/apiSlice';
 
 const store = configureStore({
   reducer: {
     user: userReducer,
     language: languageReducer,
+    profile: userProfileReducer,
     [api.reducerPath]: api.reducer, // Add api.reducerPath here
 
   },
