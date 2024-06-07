@@ -3,6 +3,7 @@ import { getSession, signOut } from "next-auth/react";
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { RegisterUserDTO, User } from "../slices/registerSlice";
 import { ILoginSuccess } from "../interface/auth";
+import { IUserProfile } from "@/pages/profile/interface";
 
 
 export interface ApiResponse<T> {
@@ -99,11 +100,15 @@ export const api = createApi({
       invalidatesTags: ['Post'],
 
     }),
-
-
+    // Add the getUserProfile endpoint
+    getUserProfile: builder.query<ApiResponse<IUserProfile | null>, void>({
+      query: () => ({
+        url: 'users/info',
+      }),
+    }),
 
   }),
 
 });
 
-export const { useCreateUserMutation, useLoginUserMutation } = api;
+export const { useCreateUserMutation, useLoginUserMutation, useGetUserProfileQuery } = api;

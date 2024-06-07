@@ -1,14 +1,20 @@
-# Intellisense
+# Intellisense  
+
+[![Test Status](https://github.com/EmreKiziltoprak/Intellisense-V1.0.0/actions/workflows/ci.yml/badge.svg)](https://github.com/EmreKiziltoprak/Intellisense-V1.0.0/actions/workflows/ci.yml)
 
 Empower your sales team with Intellisense, a comprehensive platform designed to streamline and optimize your sales processes. Track leads, manage customer relationships, forecast sales, and gain valuable insights with our intuitive interface and powerful API.
 
-maintainer: @Emre Kiziltoprak @Sercan Noyan Germiyanoglu
+### Technologies
+
+- Next.js
+- MySQL
+- JWT
+- Restful API
 
 Folder Structure
 
-Front End Next.js App: 
-
 Intellisense Front End:
+```
 │    app/
 │    ├── assets/           # Images, fonts, and other static assets
 │    ├── components/       # Reusable UI components
@@ -37,10 +43,10 @@ Intellisense Front End:
 ├── next.config.mjs        # Next.js configuration file
 ├── package.json           # Project metadata and dependencies
 ├── package-lock.json      # Lockfile for deterministic dependency installation
-
+```
 
 Intellisense API: 
-
+```
 crm-base-api/
 ├── node_modules/       # External dependencies
 ├── src/                # Source Files
@@ -59,7 +65,7 @@ crm-base-api/
 ├── index.ts            # Entry point
 ├── logger.ts           # Logging configuration
 └── swaggerConfig.ts    # Swagger setup
-
+```
 ## Installing dependencies, and starting project
 
 1. Clone this repository
@@ -88,3 +94,8 @@ This project is licensed under the MIT License. See the LICENSE file for details
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Contributors
+
+- [Emre Kızıltoprak](https://github.com/EmreKiziltoprak)
+- [Sercan Noyan Germiyanoğlu](https://github.com/Rapter1990)

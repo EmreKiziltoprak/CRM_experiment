@@ -1,29 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextField, Button } from "@mui/material";
 import styles from  "./style.module.scss";
+import { IUserProfile } from "./interface";
+import { useGetUserProfileQuery } from "@/app/store/api/apiSlice";
 
 const UserProfile = () => {
 
-    const [userData, setUserData] = useState({
-      firstName: '',
-      lastName: '',
-      language: '',
-      dateFormat: '',
-      phoneNumber: '',
-      username: 'emre1',
-      email: 'emre1@gmail.com',
-    });
-  
+  const { data: getUserProfile } = useGetUserProfileQuery();
+  const [userData, setUserData] = useState<IUserProfile | null>(null);
+
+  useEffect(() => {
+      if (getUserProfile) {
+          setUserData(getUserProfile.data);
+      }
+  }, [getUserProfile]);
+    
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
-      setUserData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
+      if (userData) {
+        setUserData((prevData) => ({
+          ...prevData!,
+          [name]: value,
+        }));
+      }
     };
   
     const handleSave = () => {
-      // Here you can add logic to save the updated user profile data
       console.log('Saving user profile:', userData);
     };
   
@@ -35,7 +37,7 @@ const UserProfile = () => {
             <TextField
               label="First Name"
               name="firstName"
-              value={userData.firstName}
+              value={userData?.firstName}
               onChange={handleChange}
               required
               margin="none"
@@ -45,42 +47,42 @@ const UserProfile = () => {
               label="Last Name"
               variant="outlined"
               name="lastName"
-              value={userData.lastName}
+              value={userData?.lastName}
               onChange={handleChange}
             />
             <TextField
               label="Language"
               variant="outlined"
               name="language"
-              value={userData.language}
+              value={userData?.language}
               onChange={handleChange}
             />
             <TextField
               label="Date Format"
               variant="outlined"
               name="dateFormat"
-              value={userData.dateFormat}
+              value={userData?.dateFormat}
               onChange={handleChange}
             />
             <TextField
               label="Phone Number"
               variant="outlined"
               name="phoneNumber"
-              value={userData.phoneNumber}
+              value={userData?.phoneNumber}
               onChange={handleChange}
             />
             <TextField
               label="Username"
               variant="outlined"
               name="username"
-              value={userData.username}
+              value={userData?.username}
               onChange={handleChange}
             />
             <TextField
               label="Email"
               variant="outlined"
               name="email"
-              value={userData.email}
+              value={userData?.email}
               onChange={handleChange}
             />
             <Button variant="contained" onClick={handleSave}>
