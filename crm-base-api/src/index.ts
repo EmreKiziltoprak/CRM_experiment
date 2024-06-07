@@ -4,13 +4,14 @@ import { UsersController } from './controllers/UsersController';
 import app from './app';
 import Container from 'typedi';
 import { CustomErrorHandler, errorHandler } from "./errors/errorHandler";
+import { MenusController } from "./controllers/MenuController";
 
 // Set up Dependency Injection container
 useContainer(Container);
 
 // Set up routing-controllers to use Express server and controllers
 useExpressServer(app, {
-  controllers: [UsersController],
+  controllers: [UsersController, MenusController],
   middlewares: [CustomErrorHandler], 
   defaultErrorHandler: false
 
