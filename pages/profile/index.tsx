@@ -1,36 +1,36 @@
-import { useEffect, useState } from "react";
-import { TextField, Button } from "@mui/material";
-import styles from "./style.module.scss";
-import { IUserProfile } from "./interface";
-import { useGetUserProfileQuery } from "@/app/store/api/apiSlice";
-import { useSession } from "next-auth/react";
+import { useEffect, useState } from 'react'
+import { TextField, Button } from '@mui/material'
+import styles from './style.module.scss'
+import { IUserProfile } from './interface'
+import { useGetUserProfileQuery } from '@/app/store/api/apiSlice'
+import { useSession } from 'next-auth/react'
 
 const UserProfile = () => {
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
-  const { data: getUserProfile } = useGetUserProfileQuery();
-  const [userData, setUserData] = useState<IUserProfile | null>(null);
+  const { data: getUserProfile } = useGetUserProfileQuery()
+  const [userData, setUserData] = useState<IUserProfile | null>(null)
 
   useEffect(() => {
-    console.table(session);
+    console.table(session)
     if (getUserProfile) {
-      setUserData(getUserProfile.data);
+      setUserData(getUserProfile.data)
     }
-  }, [getUserProfile, session]);
+  }, [getUserProfile, session])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     if (userData) {
       setUserData((prevData) => ({
         ...prevData!,
         [name]: value,
-      }));
+      }))
     }
-  };
+  }
 
   const handleSave = () => {
-    console.log('Saving user profile:', userData);
-  };
+    console.log('Saving user profile:', userData)
+  }
 
   return (
     <div className={styles.profile}>
@@ -94,7 +94,7 @@ const UserProfile = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UserProfile;
+export default UserProfile

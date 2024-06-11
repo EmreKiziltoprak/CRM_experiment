@@ -12,10 +12,9 @@ $topbarH: 64px;
     padding: 20px;
     max-width: 500px;
     width: 100%;
-    
+
     // Corrected height calculation:
     height: calc(100% - #{$topbarH}); // Use calc() for dynamic subtraction
-
 
     display: flex;
     flex-direction: column;

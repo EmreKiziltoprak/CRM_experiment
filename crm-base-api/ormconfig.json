@@ -7,7 +7,5 @@
   "database": "operational_database",
   "synchronize": true,
   "logging": true,
-  "entities": [
-    "src/models/**/*.ts"
-  ]
+  "entities": ["src/models/**/*.ts"]
 }
