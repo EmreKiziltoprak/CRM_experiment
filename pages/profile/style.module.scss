@@ -58,4 +58,25 @@ $topbarH: 64px;
       }
     }
   }
+
+  &__image__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  &__image {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    transition: border-color 0.3s;
+
+    &:hover {
+      border-color: #666;
+    }
+  }
+
 }

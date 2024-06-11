@@ -34,7 +34,7 @@ const theme = createTheme({
   },
   typography: {
     h1: {
-      fontWeight: 500, // Adjust heading weights as needed
+      fontWeight: 500, // Adjust headin+g weights as needed
       fontSize: '2.5rem',
     },
     h2: {
