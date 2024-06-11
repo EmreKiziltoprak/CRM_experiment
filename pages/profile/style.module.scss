@@ -40,7 +40,7 @@ $topbarH: 64px;
       width: 100%;
 
       input {
-        width: 100%;
+        width: calc(50% - 10px);
       }
     }
 

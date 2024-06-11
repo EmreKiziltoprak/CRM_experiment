@@ -3,6 +3,7 @@ import { TextField, Button, Avatar } from "@mui/material";
 import styles from  "./style.module.scss";
 import { IUserProfile } from "./interface";
 import { useGetUserProfileQuery } from "@/app/store/api/apiSlice";
+import { MuiTelInput } from 'mui-tel-input';
 
 const UserProfile = () => {
 
@@ -43,9 +44,18 @@ const UserProfile = () => {
         fileInputRef.current.click();
       }
     };
-  
+
     const handleSave = () => {
       console.log('Saving user profile:', userData);
+    };
+
+    const handlePhoneChange = (value: string) => {
+      if (userData) {
+        setUserData((prevData) => ({
+          ...prevData!,
+          phoneNumber: value,
+        }));
+      }
     };
   
     return (
@@ -99,12 +109,12 @@ const UserProfile = () => {
               value={userData?.dateFormat}
               onChange={handleChange}
             />
-            <TextField
+            <MuiTelInput
               label="Phone Number"
               variant="outlined"
               name="phoneNumber"
               value={userData?.phoneNumber}
-              onChange={handleChange}
+              onChange={handlePhoneChange}
             />
             <TextField
               label="Username"
