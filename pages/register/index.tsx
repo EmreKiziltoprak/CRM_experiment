@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Box, Button, Card, CircularProgress, TextField, Alert } from '@mui/material';
-import Image from "next/image";
-import classes from './style.module.scss';
-import logo from "../../app/assets/logo/logo-no-background.svg";
+import {
+  Box, Button, Card, CircularProgress, TextField, Alert,
+} from '@mui/material';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import {  useCreateUserMutation } from '@/app/store/api/apiSlice';
+import { useCreateUserMutation } from '@/app/store/api/apiSlice';
 import { RegisterUserDTO } from '@/app/store/slices/registerSlice';
 import { useRouter } from 'next/router';
-import { signIn } from "next-auth/react"; // Import signIn
+import { signIn } from 'next-auth/react'; // Import signIn
+import logo from '../../app/assets/logo/logo-no-background.svg';
+import classes from './style.module.scss';
 
 interface Props {
   locale: string;
@@ -33,40 +35,35 @@ const Register: React.FC<Props> = ({ locale }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     try {
       const result: any = await createUser(formData);
-  
 
-      console.log("error", result);
+      console.log('error', result);
 
-
-      if(!("error" in result)){
-        signIn("credentials", {
+      if (!('error' in result)) {
+        signIn('credentials', {
           token: result.data.data.token,
-          redirect: false, 
+          redirect: false,
         }).then(() => {
-          router.push("/"); 
+          router.push('/');
         });
-      }
-      else {
+      } else {
         setRegisterError(
-          result.error.data?.data.reason
+          result.error.data?.data.reason,
         );
-      } 
-      
+      }
     } catch (err) {
-      console.error("An unexpected error occurred:", err);
-      setRegisterError("An unexpected error occurred.");
+      console.error('An unexpected error occurred:', err);
+      setRegisterError('An unexpected error occurred.');
     }
   };
-
 
   return (
     <Box className={classes.login}>
       <Card className={classes.login__card}>
         <Image src={logo} width={200} height={200} alt="logo" />
-        <h6 className={classes.login__cardHeading}>{t("title")}</h6>
+        <h6 className={classes.login__cardHeading}>{t('title')}</h6>
 
         {registerError && (
           <Alert severity="error" onClose={() => setRegisterError(null)}>
@@ -76,7 +73,7 @@ const Register: React.FC<Props> = ({ locale }) => {
 
         <form onSubmit={handleSubmit} className={classes.login__cardForm}>
           <TextField
-            label={t("email")}
+            label={t('email')}
             type="email"
             name="email"
             value={formData.email}
@@ -86,7 +83,7 @@ const Register: React.FC<Props> = ({ locale }) => {
             margin="none"
           />
           <TextField
-            label={t("username")}
+            label={t('username')}
             type="text"
             name="username"
             value={formData.username}
@@ -97,7 +94,7 @@ const Register: React.FC<Props> = ({ locale }) => {
             margin="none"
           />
           <TextField
-            label={t("password")}
+            label={t('password')}
             type="password"
             className={classes.login__cardInput}
             name="password"
@@ -108,14 +105,14 @@ const Register: React.FC<Props> = ({ locale }) => {
             margin="none"
           />
           <Button
-            sx={{ textTransform: "none" }}
+            sx={{ textTransform: 'none' }}
             className={classes.login__cardSubmit}
             type="submit"
             variant="contained"
             color="primary"
             disabled={isLoading}
           >
-            {isLoading ? <CircularProgress size={24} color="inherit" /> : <h6>{t("register")}</h6>}
+            {isLoading ? <CircularProgress size={24} color="inherit" /> : <h6>{t('register')}</h6>}
           </Button>
         </form>
       </Card>
