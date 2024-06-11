@@ -41,20 +41,17 @@ const Login: React.FC = () => {
 
       }
       else {
-        debugger
 
         let tempResult = result.data as ApiResponse<ILoginSuccess>
 
-        console.table(tempResult);
-
         Cookies.set('session', tempResult!.data!.token);
 
+        router.push("/");
       }
-      // Handle result
     } catch (error) {
 
-      console.log("AQ ERROR", error)
-      // Handle error
+      console.error("error at login", error);
+      
     }
   };
 
