@@ -28,7 +28,7 @@ jobs:
               labels: ['done']
             })
 
-      - name: Remove 'development' Label from PR
+      - name: Remove 'review' Label from PR
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
@@ -37,7 +37,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              name: 'development'
+              name: 'review'
             })
 
       - name: Find Connected Issue
@@ -71,19 +71,19 @@ jobs:
               labels: ['done']
             });
 
-      - name: Remove 'development' Label from Issue
+      - name: Remove 'review' Label from Issue
         if: steps.find_issue.outputs.issue_number
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.CRM_PULL_REQUEST_TOKEN }}
           script: |
             const issueNumber = ${{ steps.find_issue.outputs.issue_number }};
-            console.log("Removing label 'development' from issue:", issueNumber);
+            console.log("Removing label 'review' from issue:", issueNumber);
             await github.rest.issues.removeLabel({
               issue_number: issueNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              name: 'development'
+              name: 'review'
             });
 
 
