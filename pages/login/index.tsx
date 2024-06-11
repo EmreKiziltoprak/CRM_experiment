@@ -5,11 +5,14 @@ import styles from './style.module.scss';
 import Image from 'next/image';
 import logo from "../../app/assets/logo/logo-no-background.svg";
 import { ApiResponse, useCreateUserMutation, useLoginUserMutation } from '@/app/store/api/apiSlice';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { ILoginError, ILoginSuccess } from '@/app/store/interface/auth';
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 const Login: React.FC = () => {
+
+  
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loginError, setLoginError] = useState<string>('');
@@ -17,9 +20,12 @@ const Login: React.FC = () => {
   const router = useRouter();
 
 
+  const {data: session} = useSession();
+  
   const handleSubmit = async (e: React.FormEvent) => {
+    
     e.preventDefault()
-
+    
     try {
 
       const result: any = await loginUser({
@@ -35,15 +41,13 @@ const Login: React.FC = () => {
 
       }
       else {
+        debugger
 
         let tempResult = result.data as ApiResponse<ILoginSuccess>
-        debugger
-        signIn("credentials", {
-          token: tempResult.data?.token,
-          redirect: true,
-        }).then(() => {
-          router.push("/");
-        });
+
+        console.table(tempResult);
+
+        Cookies.set('session', tempResult!.data!.token);
 
       }
       // Handle result
