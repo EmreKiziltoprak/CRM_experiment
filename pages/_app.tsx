@@ -102,7 +102,6 @@ const App: React.FC<AppProps> = ({ Component,
             <main className={roboto.className} style={{ height: "100%" }}>
               {/*           <LanguageSelector />
  */}          <TopBar currentMode="Crm version 0.1.0" />
-
               <Component {...pageProps} />
             </main>
           </LanguageProvider>

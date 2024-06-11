@@ -4,6 +4,7 @@ import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolk
 import { RegisterUserDTO, User } from "../slices/registerSlice";
 import { ILoginSuccess } from "../interface/auth";
 import { IUserProfile } from "@/pages/profile/interface";
+import Cookies from 'js-cookie';
 
 
 export interface ApiResponse<T> {
@@ -16,6 +17,7 @@ export interface ApiResponse<T> {
 }
 
 
+
 const baseLink = "http://localhost:3307";
 const baseQuery = fetchBaseQuery({ baseUrl: baseLink });
 
@@ -24,10 +26,13 @@ const baseQueryWithReauth: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
+  debugger;
 
-  // Get the access token from the session
-  const session = await getSession();
-  const accessToken = session?.user?.accessToken;
+  console.log("x")
+  
+  // Get the access token from the cookies
+  const accessToken = Cookies.get('session');
+
 
   // Add the Authorization header if token exists
   if (accessToken) {
@@ -50,30 +55,31 @@ const baseQueryWithReauth: BaseQueryFn<
   let result = await baseQuery(args, api, extraOptions);
 
   // Handle 401 Unauthorized errors
-/*   if (result.error && result.error.status === 401) {
-    // Attempt to refresh token (if your backend has this endpoint)
-    const refreshResult = await baseQuery("/refresh", api, extraOptions);
-
-    if (refreshResult.data) {
-      // If refresh is successful, retry the original request
-      result = await baseQuery(args, api, extraOptions);
-    } else {
-      // If refresh fails, sign out the user
-      await signOut();
-      return result; // Or throw an error to handle the failed refresh
-    }
-  } */
+  /*   if (result.error && result.error.status === 401) {
+      // Attempt to refresh token (if your backend has this endpoint)
+      const refreshResult = await baseQuery("/refresh", api, extraOptions);
+  
+      if (refreshResult.data) {
+        // If refresh is successful, retry the original request
+        result = await baseQuery(args, api, extraOptions);
+      } else {
+        // If refresh fails, sign out the user
+        await signOut();
+        return result; // Or throw an error to handle the failed refresh
+      }
+    } */
 
   return result;
 };
 
- /* 
- {
-	"statusCode": 401,
-	"errorName": "UNAUTHORIZED",
-	"message": "Unauthorized"
+
+/* 
+{
+ "statusCode": 401,
+ "errorName": "UNAUTHORIZED",
+ "message": "Unauthorized"
 }
- */
+*/
 
 export const api = createApi({
   reducerPath: "apiz",
