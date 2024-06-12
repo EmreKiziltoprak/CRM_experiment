@@ -14,6 +14,7 @@ import LanguageSelector from '@/app/components/languageSelector/languageSelector
 import LanguageProvider from "@/app/provider/languageProvider/languageProvider";
 import { ThemeProvider, createTheme } from "@mui/material";
 import TopBar from "@/app/layouts/navigation/topbar/topbar";
+import { SessionProvider } from "next-auth/react";
 
 const theme = createTheme({
   components: {
@@ -90,19 +91,23 @@ const roboto = Roboto({
   display: "swap",
 
 });
-const App: React.FC<AppProps> = ({ Component, pageProps }) => {
-  return (<Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <LanguageProvider messages={pageProps.messages}>
-        <main className={roboto.className} style={{ height: "100%" }}>
-{/*           <LanguageSelector />
+const App: React.FC<AppProps> = ({ Component,
+  pageProps: { session, ...pageProps },
+}) => {
+  return (
+    <SessionProvider session={session}>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <LanguageProvider messages={pageProps.messages}>
+            <main className={roboto.className} style={{ height: "100%" }}>
+              {/*           <LanguageSelector />
  */}          <TopBar currentMode="Crm version 0.1.0" />
-
-          <Component {...pageProps} />
-        </main>
-      </LanguageProvider>
-    </ThemeProvider>
-  </Provider>
+              <Component {...pageProps} />
+            </main>
+          </LanguageProvider>
+        </ThemeProvider>
+      </Provider>
+    </SessionProvider>
 
   );
 };
