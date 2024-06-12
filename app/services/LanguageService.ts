@@ -1,16 +1,16 @@
-import { injectable } from 'inversify';
+import { injectable } from 'inversify'
 
 @injectable()
 export class LanguageService {
   getAvailableLanguages(): string[] {
-    return ['en', 'tr'];
+    return ['en', 'tr']
   }
-  
+
   setLanguage(language: string): void {
-    localStorage.setItem('language', language);
+    localStorage.setItem('language', language)
   }
-  
+
   getLanguage(): string {
-    return localStorage.getItem('language') || 'en';
+    return localStorage.getItem('language') || 'en'
   }
 }

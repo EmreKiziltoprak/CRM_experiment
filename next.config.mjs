@@ -1,8 +1,13 @@
-import createNextIntlPlugin from 'next-intl/plugin';
- 
-const withNextIntl = createNextIntlPlugin();
- 
+import createNextIntlPlugin from 'next-intl/plugin'
+
+const nextConfig = {
+  eslint: {
+    dirs: ['src'],
+  },
+}
+
+const withNextIntl = createNextIntlPlugin()
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
- 
-export default withNextIntl(nextConfig);
+
+export default withNextIntl(nextConfig)

@@ -6,9 +6,10 @@ import { useGetUserProfileQuery } from "@/app/store/api/apiSlice";
 import { MuiTelInput } from 'mui-tel-input';
 
 const UserProfile = () => {
+  const { data: session } = useSession()
 
-  const { data: getUserProfile } = useGetUserProfileQuery();
-  const [userData, setUserData] = useState<IUserProfile | null>(null);
+  const { data: getUserProfile } = useGetUserProfileQuery()
+  const [userData, setUserData] = useState<IUserProfile | null>(null)
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 

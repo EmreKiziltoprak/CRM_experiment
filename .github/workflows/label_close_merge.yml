@@ -45,17 +45,17 @@ jobs:
         run: |
           # Get the pull request body
           pull_request_body=$(echo "${{ github.event.pull_request.body }}" | tr -d '\r')
-          
+
           # Extract the connected issue number
           connected_issue=$(echo "$pull_request_body" | grep -o '#[0-9]\+' | head -n 1 | tr -d '#')
-          
+
           # Debug output to verify the connected issue number
           echo "Connected Issue Number: $connected_issue"
-          
+
           # Set the connected issue number as an output
           echo "::set-output name=issue_number::$connected_issue"
-        shell: bash 
-      
+        shell: bash
+
       - name: Assign Label to Issue
         if: steps.find_issue.outputs.issue_number
         uses: actions/github-script@v6
@@ -85,6 +85,3 @@ jobs:
               repo: context.repo.repo,
               name: 'review'
             });
-
-
-
