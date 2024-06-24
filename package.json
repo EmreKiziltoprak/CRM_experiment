@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test" : "test --verbose"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
