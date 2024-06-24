@@ -107,13 +107,13 @@ jobs:
         run: |
           sudo apt-get install -y wkhtmltopdf
           cd crm-base-api
-          wkhtmltoimage test-results/test-report.html test-results/test-report.png
+          wkhtmltoimage $(pwd)/test-results/test-report.html $(pwd)/test-results/test-report.png
 
       - name: Archive test report image
         uses: actions/upload-artifact@v2
         with:
           name: test-report
-          path: crm-base-api/test-results/test-report.png
+          path: $(pwd)/test-results/test-report.png
 
       - name: Send test report email
         uses: dawidd6/action-send-mail@v2
@@ -126,5 +126,5 @@ jobs:
           body: Test results attached.
           to: aintellisense@proton.me
           from: ${{ secrets.EMAIL_USERNAME }}
-          attachments: crm-base-api/test-results/test-report.png
+          attachments: $(pwd)/test-results/test-report.png
 
