@@ -5,8 +5,7 @@
     "airbnb/hooks",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "prettier"
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
   "plugins": ["react", "@typescript-eslint"],
   "parser": "@typescript-eslint/parser",
@@ -22,10 +21,7 @@
     "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
-    "react/function-component-definition": [
-      2,
-      { "namedComponents": "arrow-function" }
-    ],
+    "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "import/prefer-default-export": "off",
     "no-console": ["warn", { "allow": ["warn", "error"] }],
@@ -38,5 +34,5 @@
       }
     }
   },
-  "ignorePatterns": ["crm-base-api"]
+  "ignorePatterns": ["crm-base-api"] 
 }

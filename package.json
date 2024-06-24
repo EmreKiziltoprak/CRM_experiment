@@ -7,8 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "format": "prettier --write ."
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -30,7 +29,6 @@
     "next-auth": "^4.24.7",
     "next-i18next": "^15.3.0",
     "next-intl": "^3.14.0",
-    "prettier": "^3.3.2",
     "react": "^18",
     "react-dom": "^18",
     "react-i18next": "^14.1.1",
@@ -47,7 +45,6 @@
     "eslint": "7.32.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-next": "14.2.2",
-    "eslint-config-prettier": "^9.1.0",
     "typescript": "^5"
   }
 }

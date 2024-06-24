@@ -22,32 +22,26 @@ you maintain a collaborative and inclusive environment for everyone involved.
 Thank you for considering contributing to our project! To make the process smooth, please follow these steps:
 
 1. **Fork the Repository:**
-
    - Visit our [GitHub repository](https://github.com/EmreKiziltoprak/CRM_experiment) and fork it to your GitHub account.
 
 2. **Create a New Branch:**
-
    - Create a branch for your contribution by referring to
      the [Naming Conventions of Branches](#branch-naming-conventions) for guidance.
    - Ensure your feature branch is associated with the corresponding GitHub issue from the 'Development' section in
      each issue page.
 
 3. **Make Changes:**
-
    - Implement your changes in the branch you created.
    - Thoroughly test your changes to ensure they work as expected.
 
 4. **Commit Changes:**
-
    - Commit your changes with clear and concise messages. Refer to the [Commit Messages](#commit-messages) section for
      guidance.
 
 5. **Push Changes:**
-
    - Push your changes to your forked repository.
 
 6. **Open a Pull Request (PR):**
-
    - Open a PR against the `main` branch of the original repository by referring to
      the [Pull Request Naming Conventions](#pull-request-naming-conventions) for guidance.
    - Provide a detailed description of your changes in the PR.

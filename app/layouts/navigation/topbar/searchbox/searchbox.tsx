@@ -1,28 +1,25 @@
 // components/SearchBox.tsx
 
-import React, { ChangeEvent, useEffect, useState } from 'react'
-import classes from './style.module.scss'
-import SearchIcon from '@mui/icons-material/Search'
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import classes from "./style.module.scss";
+import SearchIcon from '@mui/icons-material/Search';
 interface SearchBoxProps {
-  onChange: (value: string) => void
-  value?: string // Optional initial value
+  onChange: (value: string) => void;
+  value?: string; // Optional initial value
 }
 
-const SearchBox: React.FC<SearchBoxProps> = ({
-  onChange,
-  value: initialValue = '',
-}) => {
-  const [value, setValue] = useState(initialValue)
+const SearchBox: React.FC<SearchBoxProps> = ({ onChange, value: initialValue = '' }) => {
+  const [value, setValue] = useState(initialValue);
 
   useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
+    setValue(initialValue);
+  }, [initialValue]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value
-    setValue(newValue)
-    onChange(newValue)
-  }
+    const newValue = event.target.value;
+    setValue(newValue);
+    onChange(newValue);
+  };
 
   return (
     <div className={classes.searchbox__container}>
@@ -34,9 +31,10 @@ const SearchBox: React.FC<SearchBoxProps> = ({
         onChange={handleChange}
       />
 
-      <SearchIcon className={classes.searchbox__icon} />
-    </div>
-  )
-}
+      <SearchIcon  className={classes.searchbox__icon} />
 
-export default SearchBox
+    </div>
+  );
+};
+
+export default SearchBox;

@@ -1,4 +1,4 @@
-# Intellisense
+# Intellisense  
 
 [![Test Status](https://github.com/EmreKiziltoprak/Intellisense-V1.0.0/actions/workflows/ci.yml/badge.svg)](https://github.com/EmreKiziltoprak/Intellisense-V1.0.0/actions/workflows/ci.yml)
 
@@ -14,7 +14,6 @@ Empower your sales team with Intellisense, a comprehensive platform designed to 
 Folder Structure
 
 Intellisense Front End:
-
 ```
 │    app/
 │    ├── assets/           # Images, fonts, and other static assets
@@ -46,8 +45,7 @@ Intellisense Front End:
 ├── package-lock.json      # Lockfile for deterministic dependency installation
 ```
 
-Intellisense API:
-
+Intellisense API: 
 ```
 crm-base-api/
 ├── node_modules/       # External dependencies
@@ -68,7 +66,6 @@ crm-base-api/
 ├── logger.ts           # Logging configuration
 └── swaggerConfig.ts    # Swagger setup
 ```
-
 ## Installing dependencies, and starting project
 
 1. Clone this repository
@@ -78,6 +75,7 @@ crm-base-api/
 # Configurations
 
 1. For maintaining Intellisense API edit .env file for further configurations, and run `yarn run generate-ormconfig` for applying configurations to ormconfig.json
+
 
 # Getting started
 

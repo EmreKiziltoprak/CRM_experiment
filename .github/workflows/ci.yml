@@ -14,31 +14,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Print directory structure for debugging
-        run: ls -R
+    - name: Print directory structure for debugging
+      run: ls -R
 
-      - name: Print current directory
-        run: pwd
+    - name: Print current directory
+      run: pwd
 
-      - name: Print crm-base-api directory structure for debugging
-        run: ls -R crm-base-api
+    - name: Print crm-base-api directory structure for debugging
+      run: ls -R crm-base-api
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
 
-      - name: Install dependencies
-        working-directory: crm-base-api
-        run: yarn install
+    - name: Install dependencies
+      working-directory: crm-base-api
+      run: yarn install
 
-      - name: Generate ORM config
-        working-directory: crm-base-api
-        run: yarn run generate-ormconfig
+    - name: Generate ORM config
+      working-directory: crm-base-api
+      run: yarn run generate-ormconfig
 
-      - name: Run tests
-        working-directory: crm-base-api
-        run: yarn test
+    - name: Run tests
+      working-directory: crm-base-api
+      run: yarn test

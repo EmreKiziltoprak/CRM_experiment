@@ -1,5 +1,5 @@
 // src/logger.ts
-import * as winston from 'winston'
+import * as winston from 'winston';
 
 const logger = winston.createLogger({
   level: 'info',
@@ -9,6 +9,6 @@ const logger = winston.createLogger({
     new winston.transports.File({ filename: 'error.log', level: 'error' }),
     new winston.transports.File({ filename: 'combined.log' }),
   ],
-})
+});
 
-export default logger
+export default logger;

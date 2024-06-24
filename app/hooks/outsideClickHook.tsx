@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, ReactNode } from 'react'
+import React, { useRef, useEffect, ReactNode } from "react";
 
 /**
  * Hook that detects clicks outside of the passed ref element.
@@ -8,7 +8,7 @@ import React, { useRef, useEffect, ReactNode } from 'react'
  */
 function useOutsideAlerter(
   ref: React.RefObject<HTMLDivElement>,
-  onOutsideClick: () => void,
+  onOutsideClick: () => void
 ): void {
   useEffect(() => {
     /**
@@ -18,18 +18,18 @@ function useOutsideAlerter(
      */
     function handleClickOutside(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
-        onOutsideClick()
+        onOutsideClick();
       }
     }
 
     // Attach the event listener for mouse down events.
-    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       // Remove the event listener on component cleanup.
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [ref, onOutsideClick]) // Ensure dependencies are up-to-date
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref, onOutsideClick]); // Ensure dependencies are up-to-date
 }
 
 /**
@@ -39,19 +39,16 @@ function useOutsideAlerter(
  * @param props Component properties.
  */
 interface OutsideAlerterProps {
-  children: ReactNode
-  onOutsideClick: () => void // Callback function for outside click
+  children: ReactNode;
+  onOutsideClick: () => void; // Callback function for outside click
 }
 
-const OutsideAlerter: React.FC<OutsideAlerterProps> = ({
-  children,
-  onOutsideClick,
-}) => {
-  const wrapperRef = useRef<HTMLDivElement>(null)
+const OutsideAlerter: React.FC<OutsideAlerterProps> = ({ children, onOutsideClick }) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  useOutsideAlerter(wrapperRef, onOutsideClick) // Pass ref and callback to hook
+  useOutsideAlerter(wrapperRef, onOutsideClick); // Pass ref and callback to hook
 
-  return <div ref={wrapperRef}>{children}</div>
-}
+  return <div ref={wrapperRef}>{children}</div>;
+};
 
-export default OutsideAlerter
+export default OutsideAlerter;

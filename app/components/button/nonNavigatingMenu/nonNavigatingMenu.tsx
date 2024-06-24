@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import Icon from '../../icon/Icon'
-import classes from './style.module.scss'
-import SubMenu, { positionEnum } from './subMenu/subMenu'
-import { IconMenuItem } from '@/app/interface/topbar/topbarConstants'
+import React, { useEffect, useState } from 'react';
+import Icon from '../../icon/Icon';
+import classes from './style.module.scss';
+import SubMenu, { positionEnum } from './subMenu/subMenu';
+import { IconMenuItem } from '@/app/interface/topbar/topbarConstants';
 
 export enum IconPosition {
   Left = 'left',
@@ -13,17 +13,17 @@ export enum IconPosition {
 }
 
 type Props = {
-  iconString: string
-  height: number
-  width: number
-  position: IconPosition
-  borderRadius: number
-  hoverColor: string
-  backgroundColor: string
-  isActive: boolean
-  setActiveButtonIndex: React.Dispatch<React.SetStateAction<number | null>>
-  iconItem: IconMenuItem
-}
+  iconString: string;
+  height: number;
+  width: number;
+  position: IconPosition;
+  borderRadius: number;
+  hoverColor: string;
+  backgroundColor: string;
+  isActive: boolean;
+  setActiveButtonIndex: React.Dispatch<React.SetStateAction<number | null>>;
+  iconItem: IconMenuItem;
+};
 
 function NonNavigatingMenu({
   iconString,
@@ -37,21 +37,21 @@ function NonNavigatingMenu({
   setActiveButtonIndex,
   iconItem,
 }: Props) {
-  const [hover, setHover] = useState<boolean>(false)
-  const [showRelativeMenu, setShowRelativeMenu] = useState<boolean>(false)
+  const [hover, setHover] = useState<boolean>(false);
+  const [showRelativeMenu,setShowRelativeMenu] = useState<boolean>(false);
   // Determine CSS position class based on the position prop
   useEffect(() => {
     // Use a mapping to set the correct CSS position class
     const positionClass =
       position === IconPosition.Top
         ? classes.nonNavigatingMenu__top
-        : classes.nonNavigatingMenu__left
+        : classes.nonNavigatingMenu__left;
 
     // Update the state with the calculated class
-    setCssPosition(positionClass)
-  }, [position])
+    setCssPosition(positionClass);
+  }, [position]);
 
-  const [cssPosition, setCssPosition] = useState<string>('')
+  const [cssPosition, setCssPosition] = useState<string>('');
 
   return (
     <div className={`${classes.nonNavigatingMenu} ${cssPosition}`}>
@@ -65,17 +65,18 @@ function NonNavigatingMenu({
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onClick={() => {
-          setActiveButtonIndex(iconItem.id)
-          setShowRelativeMenu((prev) => !prev)
+
+          setActiveButtonIndex(iconItem.id);
+          setShowRelativeMenu((prev) => !prev);
         }}
       >
         <Icon height={height} width={width} content={iconString} />
       </div>
 
       {/* Opened menu (SubMenu) */}
-      {position === IconPosition.Top && isActive && (
+      {position === IconPosition.Top &&  isActive && (
         <SubMenu
-          backgroundColor="white"
+          backgroundColor='white'
           height="150px"
           width="150px"
           borderRadius="15px"
@@ -84,7 +85,7 @@ function NonNavigatingMenu({
         />
       )}
     </div>
-  )
+  );
 }
 
-export default NonNavigatingMenu
+export default NonNavigatingMenu;

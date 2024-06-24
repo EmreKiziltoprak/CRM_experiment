@@ -4,6 +4,6 @@ const config = {
     defaultLocale: 'en',
     locales: ['en', 'tr'],
   },
-}
+};
 
-export default config
+export default config;

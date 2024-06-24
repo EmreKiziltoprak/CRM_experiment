@@ -1,5 +1,7 @@
 {
-  "register": "Create an account for Intellisense",
-  "username": "User Name",
-  "email": "Email"
+    
+        "register": "Create an account for Intellisense",
+        "username": "User Name",
+        "email": "Email"
+    
 }

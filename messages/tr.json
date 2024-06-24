@@ -1,9 +1,9 @@
 {
-  "Index": {
-    "title": "Intellisense için Hesap Oluşturun",
-    "email": "Email",
-    "username": "Kullanıcı Adı",
-    "password": "Şifre",
-    "register": "Kayıt Ol"
+    "Index": {
+      "title": "Intellisense için Hesap Oluşturun",
+      "email": "Email",
+      "username": "Kullanıcı Adı",
+      "password": "Şifre",
+      "register": "Kayıt Ol"
+    }
   }
-}
