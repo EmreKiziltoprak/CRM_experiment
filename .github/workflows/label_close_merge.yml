@@ -86,10 +86,10 @@ jobs:
               name: 'review'
             });
 
-      - name: Run tests and generate report
+      - name: Run tests and generate JSON report
         run: |
           mkdir -p test-results
-          yarn test --verbose --outputFile=test-results/test-results.json --json
+          yarn jest --verbose --json --outputFile=test-results/test-results.json
 
       - name: Generate HTML report
         run: |
