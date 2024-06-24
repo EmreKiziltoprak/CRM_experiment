@@ -95,13 +95,13 @@ jobs:
         run: |
           cd crm-base-api
           mkdir -p test-results
-          yarn test --verbose --coverage --json --outputFile=/test-results.json
+          yarn test --verbose --coverage --json --outputPath=$(pwd)/test-results/test-report.html
 
       - name: Generate HTML report
         run: |
           cd crm-base-api
           yarn add -D jest-html-reporter
-          yarn jest --reporters=jest-html-reporter --outputPath=$(pwd)/test-report.html
+          yarn jest --reporters=jest-html-reporter --outputPath=$(pwd)/test-results/test-report.html
 
       - name: Convert HTML report to image
         run: |
