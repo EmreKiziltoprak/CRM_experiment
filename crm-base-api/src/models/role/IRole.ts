@@ -1,4 +1,4 @@
 interface IRole {
-    roleId: number;
-    roleName: string;
+  roleId: number
+  roleName: string
 }

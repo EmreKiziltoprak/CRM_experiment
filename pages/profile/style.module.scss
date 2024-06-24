@@ -12,10 +12,9 @@ $topbarH: 64px;
     padding: 20px;
     max-width: 500px;
     width: 100%;
-    
+
     // Corrected height calculation:
     height: calc(100% - #{$topbarH}); // Use calc() for dynamic subtraction
-
 
     display: flex;
     flex-direction: column;
@@ -40,7 +39,7 @@ $topbarH: 64px;
       width: 100%;
 
       input {
-        width: 100%;
+        width: calc(50% - 10px);
       }
     }
 
@@ -58,4 +57,25 @@ $topbarH: 64px;
       }
     }
   }
+
+  &__image__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  &__image {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    transition: border-color 0.3s;
+
+    &:hover {
+      border-color: #666;
+    }
+  }
+
 }

@@ -2,7 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 :root {
-
   /* colors */
   --button-primary-color: black;
   --primary-color: #cdd5de;
@@ -12,7 +11,6 @@
   --card-color: white;
   --border-radius-card: 10px;
   --padding-card: 1rem;
-
 
   /* Font sizes */
   --font-extra-large-heading: 3rem;
@@ -48,7 +46,6 @@
   /* New, smaller padding */
 
   --small-gap: 1em;
-
 
   /* Add more colors as needed */
 }

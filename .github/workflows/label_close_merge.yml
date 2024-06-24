@@ -45,17 +45,17 @@ jobs:
         run: |
           # Get the pull request body
           pull_request_body=$(echo "${{ github.event.pull_request.body }}" | tr -d '\r')
-          
+
           # Extract the connected issue number
           connected_issue=$(echo "$pull_request_body" | grep -o '#[0-9]\+' | head -n 1 | tr -d '#')
-          
+
           # Debug output to verify the connected issue number
           echo "Connected Issue Number: $connected_issue"
-          
+
           # Set the connected issue number as an output
           echo "::set-output name=issue_number::$connected_issue"
-        shell: bash 
-      
+        shell: bash
+
       - name: Assign Label to Issue
         if: steps.find_issue.outputs.issue_number
         uses: actions/github-script@v6
@@ -86,5 +86,26 @@ jobs:
               name: 'review'
             });
 
+      - name: Run tests and generate report
+        run: |
+          mkdir -p test-results
+          yarn test --outputFile=test-results/test-results.json --json
 
+      - name: Archive test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: test-results/test-results.json
 
+      - name: Send test report email
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: mail.protonmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: Test Report
+          body: Test results attached.
+          to: aintellisense@proton.me
+          from: ${{ secrets.EMAIL_USERNAME }}
+          attachments: test-results/test-results.json

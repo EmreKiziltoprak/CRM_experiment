@@ -1,6 +1,6 @@
-import { EntityRepository, Repository, getRepository } from 'typeorm';
-import { Service } from 'typedi';
-import { Menu, RoleMenu } from '../models/menus/Menus';
+import { EntityRepository, Repository, getRepository } from 'typeorm'
+import { Service } from 'typedi'
+import { Menu, RoleMenu } from '../models/menus/Menus'
 
 /**
  * Repository class for managing menu data.
@@ -8,15 +8,14 @@ import { Menu, RoleMenu } from '../models/menus/Menus';
 @Service()
 @EntityRepository(Menu)
 export class MenuRepository extends Repository<Menu> {
-
-  private roleMenuRepository: Repository<RoleMenu>;
+  private roleMenuRepository: Repository<RoleMenu>
 
   /**
    * Creates an instance of MenuRepository.
    */
   constructor() {
-    super();
-    this.roleMenuRepository = getRepository(RoleMenu);
+    super()
+    this.roleMenuRepository = getRepository(RoleMenu)
   }
 
   /**
@@ -25,9 +24,9 @@ export class MenuRepository extends Repository<Menu> {
    * @returns A promise that resolves to an array of menus.
    */
   async findMenusByRoleId(roleId: number): Promise<Menu[]> {
-    const roleMenus = await this.roleMenuRepository.find({ where: { roleId } });
-    const menuIds = roleMenus.map(roleMenu => roleMenu.menuId);
-    return await this.findByIds(menuIds);
+    const roleMenus = await this.roleMenuRepository.find({ where: { roleId } })
+    const menuIds = roleMenus.map((roleMenu) => roleMenu.menuId)
+    return await this.findByIds(menuIds)
   }
 
   /**
@@ -38,12 +37,12 @@ export class MenuRepository extends Repository<Menu> {
    */
   async createMenu(menu: Omit<Menu, 'menuId'>): Promise<Menu> {
     try {
-      const newMenu = await this.save(menu);
-      return newMenu; // Return the newly created menu
+      const newMenu = await this.save(menu)
+      return newMenu // Return the newly created menu
     } catch (error) {
       // Handle creation errors appropriately (e.g., log the error)
-      console.error('Error creating menu:', error);
-      throw error; // Re-throw the error for further handling
+      console.error('Error creating menu:', error)
+      throw error // Re-throw the error for further handling
     }
   }
 
@@ -56,12 +55,12 @@ export class MenuRepository extends Repository<Menu> {
    */
   async updateMenu(menuId: number, menu: Partial<Menu>): Promise<Menu> {
     try {
-      await this.update(menuId, menu);
-      return await this.findOne(menuId);
+      await this.update(menuId, menu)
+      return await this.findOne(menuId)
     } catch (error) {
       // Handle update errors appropriately (e.g., log the error)
-      console.error('Error updating menu:', error);
-      throw error; // Re-throw the error for further handling
+      console.error('Error updating menu:', error)
+      throw error // Re-throw the error for further handling
     }
   }
 
@@ -73,11 +72,11 @@ export class MenuRepository extends Repository<Menu> {
    */
   async deleteMenu(menuId: number): Promise<void> {
     try {
-      await this.delete(menuId);
+      await this.delete(menuId)
     } catch (error) {
       // Handle deletion errors appropriately (e.g., log the error)
-      console.error('Error deleting menu:', error);
-      throw error; // Re-throw the error for further handling
+      console.error('Error deleting menu:', error)
+      throw error // Re-throw the error for further handling
     }
   }
 }
