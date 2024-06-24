@@ -110,15 +110,15 @@ jobs:
           wkhtmltoimage $(pwd)/test-report.html $(pwd)/test-report.png
 
       - name: Archive test report image
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: test-report
-          path: $(pwd)/test-report.png
+          path: /home/runner/work/Intellisense-V1.0.0/Intellisense-V1.0.0/CRM_experiment/crm-base-api/test-report.png
 
       - name: Send test report email
-        uses: dawidd6/action-send-mail@v2
+        uses: dawidd6/action-send-mail@v3
         with:
-          server_address: mail.protonmail.com
+          server_address: smtp.protonmail.ch
           server_port: 465
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
@@ -126,5 +126,5 @@ jobs:
           body: Test results attached.
           to: aintellisense@proton.me
           from: ${{ secrets.EMAIL_USERNAME }}
-          attachments: $(pwd)/test-report.png
+          attachments: /home/runner/work/Intellisense-V1.0.0/Intellisense-V1.0.0/CRM_experiment/crm-base-api/test-report.png
 
