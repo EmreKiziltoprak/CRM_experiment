@@ -101,6 +101,7 @@ jobs:
         run: |
           cd crm-base-api
           yarn add -D jest-html-reporter
+          mkdir -p test-results
           yarn jest --reporters=jest-html-reporter --outputPath=$(pwd)/test-results/test-report.html
 
       - name: Convert HTML report to image
