@@ -86,26 +86,34 @@ jobs:
               name: 'review'
             });
 
+      - name: Install dependencies
+        run: |
+          cd CRM_experiment/crm-base-api
+          yarn install
+
       - name: Run tests and generate JSON report
         run: |
+          cd CRM_experiment/crm-base-api
           mkdir -p test-results
-          yarn jest --verbose --json --outputFile=test-results/test-results.json
+          yarn test --verbose --coverage --json --outputFile=test-results/test-results.json
 
       - name: Generate HTML report
         run: |
+          cd CRM_experiment/crm-base-api
           yarn add -D jest-html-reporter
           yarn jest --reporters=jest-html-reporter --outputPath=test-results/test-report.html
 
       - name: Convert HTML report to image
         run: |
           sudo apt-get install -y wkhtmltopdf
+          cd CRM_experiment/crm-base-api
           wkhtmltoimage test-results/test-report.html test-results/test-report.png
 
       - name: Archive test report image
         uses: actions/upload-artifact@v2
         with:
           name: test-report
-          path: test-results/test-report.png
+          path: CRM_experiment/crm-base-api/test-results/test-report.png
 
       - name: Send test report email
         uses: dawidd6/action-send-mail@v2
@@ -118,5 +126,5 @@ jobs:
           body: Test results attached.
           to: aintellisense@proton.me
           from: ${{ secrets.EMAIL_USERNAME }}
-          attachments: test-results/test-report.png
+          attachments: CRM_experiment/crm-base-api/test-results/test-report.png
 
