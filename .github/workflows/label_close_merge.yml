@@ -109,3 +109,4 @@ jobs:
           to: aintellisense@proton.me
           from: ${{ secrets.EMAIL_USERNAME }}
           attachments: test-results/test-results.json
+          
