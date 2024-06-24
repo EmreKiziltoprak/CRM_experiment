@@ -85,3 +85,27 @@ jobs:
               repo: context.repo.repo,
               name: 'review'
             });
+
+      - name: Run tests and generate report
+        run: |
+          mkdir -p test-results
+          yarn test --outputFile=test-results/test-results.json --json
+
+      - name: Archive test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: test-results/test-results.json
+
+      - name: Send test report email
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: mail.protonmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: Test Report
+          body: Test results attached.
+          to: aintellisense@proton.me
+          from: ${{ secrets.EMAIL_USERNAME }}
+          attachments: test-results/test-results.json
