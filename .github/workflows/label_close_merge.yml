@@ -118,12 +118,12 @@ jobs:
       - name: Send test report email
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.protonmail.ch
-          server_port: 587
+          server_address: smtp.gmail.com
+          server_port: 465
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: Test Report
           body: Test results attached.
-          to: aintellisense@proton.me
+          to: ${{ secrets.EMAIL_USERNAME }}
           from: ${{ secrets.EMAIL_USERNAME }}
           attachments: crm-base-api/test-report.png
