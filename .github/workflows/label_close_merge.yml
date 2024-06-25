@@ -127,4 +127,3 @@ jobs:
           to: aintellisense@proton.me
           from: ${{ secrets.EMAIL_USERNAME }}
           attachments: crm-base-api/test-report.png
-
