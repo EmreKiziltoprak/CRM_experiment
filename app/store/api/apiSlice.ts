@@ -19,18 +19,19 @@ export interface ApiResponse<T> {
   message?: string
 }
 
-const baseLink = 'http://localhost:3307'
-const baseQuery = fetchBaseQuery({ baseUrl: baseLink })
+const baseLink = "http://localhost:3307";
+
+const baseQuery = fetchBaseQuery({ baseUrl: baseLink });
 
 const baseQueryWithReauth: BaseQueryFn<
   string | FetchArgs,
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-  debugger
+  debugger;
 
-  console.log('x')
-
+  console.log("x")
+  
   // Get the access token from the cookies
   const accessToken = Cookies.get('session')
 
