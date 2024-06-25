@@ -127,3 +127,4 @@ jobs:
           to: ${{ secrets.EMAIL_USERNAME }}
           from: ${{ secrets.EMAIL_USERNAME }}
           attachments: crm-base-api/test-report.png
+          
