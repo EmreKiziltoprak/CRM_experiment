@@ -119,7 +119,7 @@ jobs:
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.protonmail.ch
-          server_port: 465
+          server_port: 587
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: Test Report
