@@ -15,15 +15,6 @@ export class MenusService {
   constructor(@Inject() public menuRepository: MenuRepository) {}
 
   /**
-   * Finds menus by their role ID.
-   * @param roleId - The ID of the role.
-   * @returns A promise that resolves to an array of menus if found, or an empty array if not.
-   */
-  async findMenusByRoleId(roleId: number): Promise<Menu[]> {
-    return await this.menuRepository.findMenusByRoleId(roleId)
-  }
-
-  /**
    * Creates a new menu.
    * @param menuData - The data for the new menu, excluding menuId.
    * @returns A promise that resolves to the newly created menu.
@@ -46,7 +37,12 @@ export class MenusService {
    * @returns A promise that resolves to a Menu object if found, or null if not.
    */
   async getMenuDetails(menuId: number): Promise<Menu | null> {
-    const menu = await this.menuRepository.findOne(menuId)
-    return menu || null
+    try {
+      const menu = await this.menuRepository.getMenuDetails(menuId)
+      return menu || null
+    } catch (error) {
+      console.error(`Error retrieving menu details for ID ${menuId}:`, error)
+      throw error // Optionally, handle or rethrow the error as needed
+    }
   }
 }

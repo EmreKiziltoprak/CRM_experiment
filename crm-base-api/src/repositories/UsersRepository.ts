@@ -58,18 +58,14 @@ export class UsersRepository {
    * @returns A promise that resolves to the user or their details if found, or null if not.
    * @see {@link UsersService#getUserInfo}
    */
-  async findUserDetailsByUserId(
-    userId: number,
-  ): Promise<Users | UserDetails | null> {
-    debugger
-
+  async findUserDetailsByUserId(userId: number): Promise<Users | UserDetails | null> {
     const user = await this.repository.findOne({
       where: { userId }, // Adjust the where condition to match the primary key of Users entity
       relations: ['userDetails'], // Use 'userDetails' instead of 'user_details'
-    })
+    });
 
-    console.log('userInfo : ', user)
+    console.log('userInfo : ', user);
 
-    return user.userDetails ? user.userDetails : user
+    return user ? (user.userDetails ? user.userDetails : user) : null;
   }
 }

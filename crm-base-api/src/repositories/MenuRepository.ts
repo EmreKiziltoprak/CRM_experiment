@@ -6,27 +6,14 @@ import { Menu, RoleMenu } from '../models/menus/Menus'
  * Repository class for managing menu data.
  */
 @Service()
-@EntityRepository(Menu)
-export class MenuRepository extends Repository<Menu> {
-  private roleMenuRepository: Repository<RoleMenu>
+export class MenuRepository {
+  private menuRepository: Repository<Menu>
 
   /**
    * Creates an instance of MenuRepository.
    */
   constructor() {
-    super()
-    this.roleMenuRepository = getRepository(RoleMenu)
-  }
-
-  /**
-   * Returns menus related to a specific role.
-   * @param roleId - The ID of the role.
-   * @returns A promise that resolves to an array of menus.
-   */
-  async findMenusByRoleId(roleId: number): Promise<Menu[]> {
-    const roleMenus = await this.roleMenuRepository.find({ where: { roleId } })
-    const menuIds = roleMenus.map((roleMenu) => roleMenu.menuId)
-    return await this.findByIds(menuIds)
+    this.menuRepository = getRepository(Menu)
   }
 
   /**
@@ -37,7 +24,7 @@ export class MenuRepository extends Repository<Menu> {
    */
   async createMenu(menu: Omit<Menu, 'menuId'>): Promise<Menu> {
     try {
-      const newMenu = await this.save(menu)
+      const newMenu = this.menuRepository.save(menu)
       return newMenu // Return the newly created menu
     } catch (error) {
       // Handle creation errors appropriately (e.g., log the error)
@@ -55,10 +42,20 @@ export class MenuRepository extends Repository<Menu> {
    */
   async updateMenu(menuId: number, menu: Partial<Menu>): Promise<Menu> {
     try {
-      await this.update(menuId, menu)
-      return await this.findOne(menuId)
+      const updateResult = await this.menuRepository.update(menuId, menu) // Assuming this.update() returns UpdateResult
+
+      if (updateResult.affected !== 1) {
+        throw new Error(`Failed to update menu with ID ${menuId}`)
+      }
+
+      const updatedMenu = await this.menuRepository.findOne(menuId) // Assuming this.findOne() returns Menu | undefined
+
+      if (!updatedMenu) {
+        throw new Error(`Menu with ID ${menuId} not found after update`)
+      }
+
+      return updatedMenu
     } catch (error) {
-      // Handle update errors appropriately (e.g., log the error)
       console.error('Error updating menu:', error)
       throw error // Re-throw the error for further handling
     }
@@ -72,11 +69,26 @@ export class MenuRepository extends Repository<Menu> {
    */
   async deleteMenu(menuId: number): Promise<void> {
     try {
-      await this.delete(menuId)
+      await this.menuRepository.delete(menuId)
     } catch (error) {
       // Handle deletion errors appropriately (e.g., log the error)
       console.error('Error deleting menu:', error)
       throw error // Re-throw the error for further handling
+    }
+  }
+
+  /**
+   * Retrieves menu details for a given menu ID.
+   * @param menuId - The ID of the menu.
+   * @returns A promise that resolves to a Menu object if found, or null if not.
+   */
+  async getMenuDetails(menuId: number): Promise<Menu | null> {
+    try {
+      const menu = await this.menuRepository.findOne(menuId)
+      return menu || null
+    } catch (error) {
+      console.error(`Error retrieving menu details for ID ${menuId}:`, error)
+      throw error // Optionally, handle or rethrow the error as needed
     }
   }
 }
