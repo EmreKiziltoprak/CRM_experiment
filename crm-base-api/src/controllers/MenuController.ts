@@ -50,30 +50,6 @@ export class MenusController {
     }
   }
 
-  /**
-   * Retrieves menus by role ID.
-   * @param {number} roleId - The ID of the role.
-   * @param {Response} res - The response object for sending HTTP responses.
-   * @returns {Promise<any>} A promise resolving to the menus if found, or an empty array if not.
-   */
-
-  @Get('/role/:roleId')
-  async getMenusByRoleId(
-    @Param('roleId') roleId: number,
-    @Res() res: Response,
-  ): Promise<any> {
-    try {
-      const menus = await this.menusService.findMenusByRoleId(roleId)
-      return sendSuccessResponse(
-        res,
-        menus,
-        'Menus retrieved successfully',
-        200,
-      )
-    } catch (error) {
-      throw new HttpError(500, 'Failed to retrieve menus')
-    }
-  }
 
   /**
    * Retrieves details of a specific menu by its ID.
